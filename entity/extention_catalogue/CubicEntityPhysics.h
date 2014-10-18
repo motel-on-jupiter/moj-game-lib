@@ -4,6 +4,8 @@
 #ifndef MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYPHYSICS_H_
 #define MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYPHYSICS_H_
 
+#ifdef MOJGAMELIB_WITH_BULLET
+
 #include "mojgame/auxiliary/glm_aux.h"
 #include "mojgame/entity/CubicEntity.h"
 #include "mojgame/includer/bullet_include.h"
@@ -75,5 +77,7 @@ class CubicEntityPhysics : public CubicEntityExtention {
 };
 
 } /* namespace mojgame */
+
+#endif /* MOJGAMELIB_WITH_BULLET */
 
 #endif /* MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYPHYSICS_H_ */

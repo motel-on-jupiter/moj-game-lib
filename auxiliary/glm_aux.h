@@ -4,10 +4,11 @@
 #ifndef MOJGAMELIB_AUXILIARY_GLMAUX_H_
 #define MOJGAMELIB_AUXILIARY_GLMAUX_H_
 
-#include "mojgame/includer/glm_include.h"
 #include "mojgame/includer/bullet_include.h"
+#include "mojgame/includer/glm_include.h"
 
 namespace glm_aux {
+
 template<typename T = float, glm::precision P = glm::defaultp> GLM_FUNC_QUALIFIER glm::detail::tvec3<
     T, P> zero() {
   return glm::detail::tvec3<T, P>(0, 0, 0);
@@ -82,6 +83,8 @@ GLM_FUNC_DECL glm::detail::tquat<T, P> angleBetweenVectors(
   }
 }
 
+#ifdef MOJGAMELIB_WITH_BULLET
+
 template<typename T = float, glm::precision P = glm::defaultp> GLM_FUNC_QUALIFIER glm::detail::tvec3<
     T, P> fromBtVec3(btVector3 const & v) {
   return glm::vec3(v.x(), v.y(), v.z());
@@ -106,6 +109,9 @@ template<typename T = float, glm::precision P = glm::defaultp> GLM_FUNC_QUALIFIE
     glm::detail::tquat<T, P> const & q) {
   return btQuaternion(q.x, q.y, q.z, q.w);
 }
-}
+
+#endif /* MOJGAMELIB_WITH_BULLET */
+
+} /* namespace glm_aux */
 
 #endif /* MOJGAMELIB_AUXILIARY_GLMAUX_H_ */

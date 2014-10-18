@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
+#ifdef MOJGAMELIB_WITH_BULLET
+
 #include "mojgame/entity/extention_catalogue/CubicEntityPhysics.h"
 #include "mojgame/auxiliary/glm_aux.h"
 #include "mojgame/includer/bullet_include.h"
@@ -43,3 +45,5 @@ void CubicEntityPhysics::CleanObjects() {
 }
 
 } /* namespace mojgame */
+
+#endif /* MOJGAMELIB_WITH_BULLET */
