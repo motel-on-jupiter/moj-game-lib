@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef INCLUDER_GLINCLUDE_H_
-#define INCLUDER_GLINCLUDE_H_
+#ifndef MOJGAMELIB_INCLUDER_GLINCLUDE_H_
+#define MOJGAMELIB_INCLUDER_GLINCLUDE_H_
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -20,4 +20,4 @@ class _dummy {
 };
 }
 
-#endif /* INCLUDER_GLINCLUDE_H_ */
+#endif /* MOJGAMELIB_INCLUDER_GLINCLUDE_H_ */

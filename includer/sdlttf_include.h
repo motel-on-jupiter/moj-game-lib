@@ -1,0 +1,9 @@
+/**
+ * Copyright (C) 2014 The Motel on Jupiter
+ */
+#ifndef MOJGAMELIB_INCLUDER_SDLTTFINCLUDE_H_
+#define MOJGAMELIB_INCLUDER_SDLTTFINCLUDE_H_
+
+#include <SDL_ttf.h>
+
+#endif /* MOJGAMELIB_INCLUDER_SDLTTFINCLUDE_H_ */
