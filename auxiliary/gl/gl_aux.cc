@@ -125,10 +125,6 @@ inline GLenum glCheckReadFramebufferStatus() {
   return glCheckFramebufferStatus(GL_READ_FRAMEBUFFER);
 }
 
-inline void glClearAll() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-}
-
 inline void glDrawFramebufferColorTexture(GLint attachidx, GLuint texture,
                                           GLint level) {
   glFramebufferTexture(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachidx,
@@ -200,11 +196,6 @@ inline void glUnbindFramebuffer(GLenum target) {
 
 inline void glUnbindReadFramebuffer() {
   glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-}
-
-inline void glSetClearanceColor(GLclampf red, GLclampf green, GLclampf blue,
-                                GLclampf alpha) {
-  glClearColor(red, green, blue, alpha);
 }
 
 } /* namespace mojgame */

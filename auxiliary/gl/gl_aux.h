@@ -22,7 +22,6 @@ extern inline void glBindTexture2D(GLuint texture);
 extern inline void glBindTexture3D(GLuint texture);
 extern inline GLenum glCheckDrawFramebufferStatus();
 extern inline GLenum glCheckReadFramebufferStatus();
-extern inline void glClearAll();
 extern inline void glDrawFramebufferColorTexture(GLint attachidx,
                                                  GLuint texture, GLint level);
 extern inline void glDrawFramebufferDepthTexture(GLuint texture, GLint level);
@@ -44,12 +43,6 @@ extern inline void glReadFramebufferRenderbuffer(GLenum attachment,
 extern inline void glUnbindDrawFramebuffer();
 extern inline void glUnbindFramebuffer(GLenum target);
 extern inline void glUnbindReadFramebuffer();
-
-/**
- * Renamed functions
- */
-extern inline void glSetClearanceColor(GLclampf red, GLclampf green,
-                                       GLclampf blue, GLclampf alpha);
 
 } /* namespace mojgame */
 
