@@ -9,10 +9,6 @@
 
 namespace mojgame {
 
-extern int glCompileShaderFile(GLuint shader, const char *path);
-extern int glLinkProgramWithShaders(GLuint program,
-                                    std::vector<GLuint> &shaders);
-
 extern inline void glActiveTextureUnit(GLuint unit);
 extern inline void glBindDrawFramebuffer(GLuint framebuffer);
 extern inline void glBindReadFramebuffer(GLuint framebuffer);
@@ -48,6 +44,5 @@ extern inline void glUnbindReadFramebuffer();
 
 #include "mojgame/auxiliary/gl/GLFrameBuffer.h"
 #include "mojgame/auxiliary/gl/GLMaterialColor.h"
-#include "mojgame/auxiliary/gl/GLShader.h"
 
 #endif /* MOJGAMELIB_AUXILIARY_GLAUX_H_ */
