@@ -2,7 +2,7 @@
  * Copyright (C) 2014 The Motel on Jupiter
  */
 #include "mojgame/entity/extention_catalogue/PlanarEntityDraw.h"
-#include "mojgame/auxiliary/gl_aux.h"
+#include "mojgame/auxiliary/gl/gl_aux.h"
 #include "mojgame/entity/PlanarEntity.h"
 #include "mojgame/includer/gl_include.h"
 #include "mojgame/includer/glm_include.h"

@@ -1,11 +1,9 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#include "mojgame/auxiliary/gl_aux.h"
-
+#include "mojgame/auxiliary/gl/gl_aux.h"
 #include <errno.h>
 #include <stddef.h>
-
 #include "mojgame/auxiliary/assert_aux.h"
 #include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/logging/Logger.h"
@@ -202,13 +200,6 @@ inline void glUnbindFramebuffer(GLenum target) {
 
 inline void glUnbindReadFramebuffer() {
   glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-}
-
-void glMaterial(GLenum face, const GLMaterialColor &material_color) {
-  glMaterialfv(face, GL_AMBIENT, glm::value_ptr(material_color.ambient));
-  glMaterialfv(face, GL_DIFFUSE, glm::value_ptr(material_color.diffuse));
-  glMaterialfv(face, GL_SPECULAR, glm::value_ptr(material_color.specular));
-  glMaterialf(face, GL_SHININESS, material_color.shininess);
 }
 
 inline void glSetClearanceColor(GLclampf red, GLclampf green, GLclampf blue,

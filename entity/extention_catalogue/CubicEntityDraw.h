@@ -5,7 +5,7 @@
 #define MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYDRAW_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
-#include "mojgame/auxiliary/gl_aux.h"
+#include "mojgame/auxiliary/gl/gl_aux.h"
 #include "mojgame/entity/CubicEntity.h"
 #include "mojgame/includer/gl_include.h"
 

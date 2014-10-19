@@ -45,30 +45,6 @@ extern inline void glUnbindDrawFramebuffer();
 extern inline void glUnbindFramebuffer(GLenum target);
 extern inline void glUnbindReadFramebuffer();
 
-struct GLMaterialColor {
-  glm::vec3 ambient;
-  glm::vec3 diffuse;
-  glm::vec3 specular;
-  float shininess;
-
-  GLMaterialColor(const glm::vec3 &color)
-      : ambient(color),
-        diffuse(color),
-        specular(glm::vec3(1.0f)),
-        shininess(1.0f) {
-  }
-  GLMaterialColor(const glm::vec3 &ambient, const glm::vec3 &diffuse,
-                  const glm::vec3 &specular, float shininess)
-      : ambient(ambient),
-        diffuse(diffuse),
-        specular(specular),
-        shininess(shininess) {
-  }
-};
-
-extern inline void glMaterial(GLenum face,
-                              const GLMaterialColor &material_color);
-
 /**
  * Renamed functions
  */
@@ -76,5 +52,9 @@ extern inline void glSetClearanceColor(GLclampf red, GLclampf green,
                                        GLclampf blue, GLclampf alpha);
 
 } /* namespace mojgame */
+
+#include "mojgame/auxiliary/gl/GLFrameBuffer.h"
+#include "mojgame/auxiliary/gl/GLMaterialColor.h"
+#include "mojgame/auxiliary/gl/GLShader.h"
 
 #endif /* MOJGAMELIB_AUXILIARY_GLAUX_H_ */
