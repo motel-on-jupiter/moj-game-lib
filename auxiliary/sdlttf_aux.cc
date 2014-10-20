@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
+#ifdef MOJGAMELIB_WITH_SDLTTF
+
 #include "mojgame/auxiliary/sdlttf_aux.h"
 #include "mojgame/includer/glm_include.h"
 #include "mojgame/includer/sdl_include.h"
@@ -56,3 +58,5 @@ int RenderTTFText(TTF_Font *Font, const SDL_Color& Color,
 } /* namespace sdlttf_aux */
 
 } /* namespace mojgame */
+
+#endif /* MOJGAMELIB_WITH_SDLTTF */
