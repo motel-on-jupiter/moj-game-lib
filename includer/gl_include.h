@@ -4,7 +4,10 @@
 #ifndef MOJGAMELIB_INCLUDER_GLINCLUDE_H_
 #define MOJGAMELIB_INCLUDER_GLINCLUDE_H_
 
+#ifdef MOJGAMELIB_WITH_GLEW
 #include <GL/glew.h>
+#endif /*MOJGAMELIB_WITH_GLEW */
+
 #include <GL/freeglut.h>
 
 /**
