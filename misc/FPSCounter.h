@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_MEASUREMENT_FPSCOUNTER_H_
-#define MOJGAMELIB_MEASUREMENT_FPSCOUNTER_H_
+#ifndef MOJGAMELIB_MISC_FPSCOUNTER_H_
+#define MOJGAMELIB_MISC_FPSCOUNTER_H_
 
 namespace mojgame {
 
@@ -30,4 +30,4 @@ class FPSCounter {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_MEASUREMENT_FPSCOUNTER_H_ */
+#endif /* MOJGAMELIB_MISC_FPSCOUNTER_H_ */
