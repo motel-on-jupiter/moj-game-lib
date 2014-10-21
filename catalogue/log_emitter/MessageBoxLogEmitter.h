@@ -2,12 +2,12 @@
  * Copyright (C) 2014 The Motel on Jupiter
  */
 
-#ifndef MOJGAMELIB_LOGGING_EMITTER_MESSAGEBOXLOGEMITTER_H_
-#define MOJGAMELIB_LOGGING_EMITTER_MESSAGEBOXLOGEMITTER_H_
+#ifndef MOJGAMELIB_CATALOGUE_LOGEMITTER_MESSAGEBOXLOGEMITTER_H_
+#define MOJGAMELIB_CATALOGUE_LOGEMITTER_MESSAGEBOXLOGEMITTER_H_
 
 #include <tchar.h>
 #include "mojgame/auxiliary/csyntax_aux.h"
-#include "mojgame/logging/emitter/LogEmitter.h"
+#include "mojgame/logging/LogEmitter.h"
 
 namespace mojgame {
 
@@ -32,4 +32,4 @@ extern MessageBoxLogEmitter &MESSAGE_BOX_LOG_EMITTER();
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_LOGGING_EMITTER_MESSAGEBOXLOGEMITTER_H_*/
+#endif /* MOJGAMELIB_CATALOGUE_LOGEMITTER_MESSAGEBOXLOGEMITTER_H_*/

@@ -1,9 +1,11 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#include "mojgame/camera/controller_catalogue/DesignerCameraController.h"
+#include "mojgame/catalogue/camera_controller/DesignerCameraController.h"
 #include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/auxiliary/math_aux.h"
+#include "mojgame/camera/Camera.h"
+#include "mojgame/camera/CameraController.h"
 #include "mojgame/includer/gl_include.h"
 #include "mojgame/includer/sdl_include.h"
 

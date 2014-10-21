@@ -1,11 +1,11 @@
 ﻿/**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_LOGGING_EMITTER_PIPELOGEMITTER_H_
-#define MOJGAMELIB_LOGGING_EMITTER_PIPELOGEMITTER_H_
+#ifndef MOJGAMELIB_CATALOGUE_LOGEMITTER_PIPELOGEMITTER_H_
+#define MOJGAMELIB_CATALOGUE_LOGEMITTER_PIPELOGEMITTER_H_
 
 #include <cstdio>
-#include "mojgame/logging/emitter/LogEmitter.h"
+#include "mojgame/logging/LogEmitter.h"
 
 namespace mojgame {
 
@@ -29,4 +29,4 @@ class PipeLogEmitter : public LogEmitter {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_LOGGING_EMITTER_PIPELOGEMITTER_H_ */
+#endif /* MOJGAMELIB_CATALOGUE_LOGEMITTER_PIPELOGEMITTER_H_ */

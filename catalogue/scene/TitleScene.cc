@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#include "mojgame/scene/catalogue/TitleScene.h"
+#include "mojgame/catalogue/scene/TitleScene.h"
 #include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/includer/gl_include.h"
 #include "mojgame/includer/sdl_include.h"

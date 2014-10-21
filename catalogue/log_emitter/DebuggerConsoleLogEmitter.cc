@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#include "mojgame/logging/emitter/DebuggerConsoleLogEmitter.h"
+#include "mojgame/catalogue/log_emitter/DebuggerConsoleLogEmitter.h"
 
 #include <cerrno>
 #include <cstdarg>

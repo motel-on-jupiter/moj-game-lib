@@ -2,11 +2,11 @@
  * Copyright (C) 2014 The Motel on Jupiter
  */
 
-#ifndef MOJGAME_LOGGING_EMITTER_DEBUGGERCONSOLELOGEMITTER_H_
-#define MOJGAME_LOGGING_EMITTER_DEBUGGERCONSOLELOGEMITTER_H_
+#ifndef MOJGAMELIB_CATALOGUE_LOGEMITTER_DEBUGGERCONSOLELOGEMITTER_H_
+#define MOJGAMELIB_CATALOGUE_LOGEMITTER_DEBUGGERCONSOLELOGEMITTER_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
-#include "mojgame/logging/emitter/LogEmitter.h"
+#include "mojgame/logging/LogEmitter.h"
 
 namespace mojgame {
 
@@ -35,4 +35,4 @@ extern DebuggerConsoleLogEmitter &DEBUGGER_CONSOLE_LOG_EMITTER();
 
 } /* namespace mojgame */
 
-#endif /* MOJGAME_LOGGING_EMITTER_DEBUGGERCONSOLELOGEMITTER_H_ */
+#endif /* MOJGAMELIB_CATALOGUE_LOGEMITTER_DEBUGGERCONSOLELOGEMITTER_H_ */

@@ -2,6 +2,7 @@
  * Copyright (C) 2014 The Motel on Jupiter
  */
 #include "mojgame/camera/Camera.h"
+#include "mojgame/includer/glm_include.h"
 
 namespace mojgame {
 

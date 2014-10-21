@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#include "mojgame/logging/emitter/PipeLogEmitter.h"
+#include "mojgame/catalogue/log_emitter/PipeLogEmitter.h"
 #include <cstdio>
 
 namespace mojgame {

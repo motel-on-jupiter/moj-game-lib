@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_SCENE_TITLESCENE_H_
-#define MOJGAMELIB_SCENE_TITLESCENE_H_
+#ifndef MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
+#define MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
 
 #include "mojgame/scene/BaseScene.h"
 
@@ -31,4 +31,4 @@ class TitleScene : public BaseScene {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_SCENE_TITLESCENE_H_ */
+#endif /* MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_ */

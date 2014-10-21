@@ -2,7 +2,7 @@
  * Copyright (C) 2014 The Motel on Jupiter
  */
 
-#include "mojgame/logging/emitter/MessageBoxLogEmitter.h"
+#include "mojgame/catalogue/log_emitter/MessageBoxLogEmitter.h"
 
 #include <cerrno>
 #include <cstdarg>

@@ -1,8 +1,8 @@
 ﻿/**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_LOGGING_EMITTER_LOGEMITTER_H_
-#define MOJGAMELIB_LOGGING_EMITTER_LOGEMITTER_H_
+#ifndef MOJGAMELIB_LOGGING_LOGEMITTER_H_
+#define MOJGAMELIB_LOGGING_LOGEMITTER_H_
 
 #include <cstdarg>
 
@@ -19,4 +19,4 @@ class LogEmitter {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_LOGGING_EMITTER_LOGEMITTER_H_ */
+#endif /* MOJGAMELIB_LOGGING_LOGEMITTER_H_ */

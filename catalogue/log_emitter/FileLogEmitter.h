@@ -1,12 +1,12 @@
 ﻿/**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_LOGGING_EMITTER_FILELOGEMITTER_H_
-#define MOJGAMELIB_LOGGING_EMITTER_FILELOGEMITTER_H_
+#ifndef MOJGAMELIB_CATALOGUE_LOGEMITTER_FILELOGEMITTER_H_
+#define MOJGAMELIB_CATALOGUE_LOGEMITTER_FILELOGEMITTER_H_
 
 #include <cstdio>
 #include "mojgame/auxiliary/csyntax_aux.h"
-#include "mojgame/logging/emitter/PipeLogEmitter.h"
+#include "mojgame/catalogue/log_emitter/PipeLogEmitter.h"
 
 namespace mojgame {
 
@@ -82,4 +82,4 @@ template<const char *filepath> FileLogEmitter<filepath> &FILE_LOG_EMITTER() {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_LOGGING_EMITTER_FILELOGEMITTER_H_ */
+#endif /* MOJGAMELIB_CATALOGUE_LOGEMITTER_FILELOGEMITTER_H_ */

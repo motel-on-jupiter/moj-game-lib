@@ -1,12 +1,14 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_CAMERA_CONTROLLERCATALOGUE_FIRSTPERSONCAMERACONTROLLER_H_
-#define MOJGAMELIB_CAMERA_CONTROLLERCATALOGUE_FIRSTPERSONCAMERACONTROLLER_H_
+#ifndef MOJGAMELIB_CATALOGUE_CAMERACONTROLLER_FIRSTPERSONCAMERACONTROLLER_H_
+#define MOJGAMELIB_CATALOGUE_CAMERACONTROLLER_FIRSTPERSONCAMERACONTROLLER_H_
 
 #include <set>
-#include "mojgame/camera/Camera.h"
+#include "mojgame/camera/CameraController.h"
 #include "mojgame/includer/sdl_include.h"
+
+class Camera;
 
 namespace mojgame {
 
@@ -31,4 +33,4 @@ class FirstPersonCameraController : public mojgame::BaseCameraController {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_CAMERA_CONTROLLERCATALOGUE_FIRSTPERSONCAMERACONTROLLER_H_ */
+#endif /* MOJGAMELIB_CATALOGUE_CAMERACONTROLLER_FIRSTPERSONCAMERACONTROLLER_H_ */

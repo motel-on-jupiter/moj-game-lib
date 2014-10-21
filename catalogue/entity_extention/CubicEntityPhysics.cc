@@ -3,7 +3,7 @@
  */
 #ifdef MOJGAMELIB_WITH_BULLET
 
-#include "mojgame/entity/extention_catalogue/CubicEntityPhysics.h"
+#include "mojgame/catalogue/entity_extention/CubicEntityPhysics.h"
 #include "mojgame/auxiliary/glm_aux.h"
 #include "mojgame/includer/bullet_include.h"
 #include "mojgame/logging/Logger.h"

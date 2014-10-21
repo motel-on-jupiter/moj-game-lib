@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#ifndef MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYDRAW_H_
-#define MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYDRAW_H_
+#ifndef MOJGAMELIB_CATALOGUE_ENTITYEXTENTION_CUBICENTITYDRAW_H_
+#define MOJGAMELIB_CATALOGUE_ENTITYEXTENTION_CUBICENTITYDRAW_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/auxiliary/gl/gl_aux.h"
@@ -89,4 +89,4 @@ class EntityCubeDraw : public CubicEntityDraw {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAMELIB_ENTITY_EXTENTIONCATALOGUE_CUBICENTITYDRAW_H_ */
+#endif /* MOJGAMELIB_CATALOGUE_ENTITYEXTENTION_CUBICENTITYDRAW_H_ */

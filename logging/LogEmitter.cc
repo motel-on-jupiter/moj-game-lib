@@ -1,7 +1,7 @@
 ﻿/**
  * Copyright (C) 2014 The Motel on Jupiter
  */
-#include "mojgame/logging/emitter/LogEmitter.h"
+#include "mojgame/logging/LogEmitter.h"
 #include <cstdarg>
 
 namespace mojgame {
