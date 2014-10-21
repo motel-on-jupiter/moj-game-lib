@@ -6,6 +6,7 @@
 
 #define UNUSED(_arg) do { (void)(_arg); } while(0)
 #define SAFE_STR(_str) ((_str == nullptr) ? "(null)" : _str)
+#define HERE_DOCUMENT(...) #__VA_ARGS__
 
 #ifdef _MSC_VER
 #include <Windows.h>
