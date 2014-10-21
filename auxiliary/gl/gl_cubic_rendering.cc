@@ -59,6 +59,16 @@ inline void clean_up_all_lighting() {
   }
 }
 
+inline void multi_model_matrix(const glm::vec3 &translation,
+                               const glm::quat &rotation,
+                               const glm::vec3 &scaling) {
+  glMatrixMode(GL_MODELVIEW);
+  glMultMatrixf(
+      glm::value_ptr(
+          glm::translate(translation) * glm::mat4_cast(rotation)
+              * glm::scale(scaling)));
+}
+
 } /* namespace gl_cubic_rendering */
 
 } /* namespace mojgame */
