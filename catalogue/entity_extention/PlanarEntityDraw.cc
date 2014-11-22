@@ -92,22 +92,32 @@ void EntityRectangleDraw::Draw() const {
   }
   glPushMatrix();
   glMultMatrixf(
-      glm::value_ptr(glm::translate(glm::vec3(entity().pos(), 0.0f))));
+      glm::value_ptr(glm::translate(glm::vec3(entity().pos(), 0.0f)) *
+                     glm::toMat4(glm_aux::angleAxisZ(entity().rot())) *
+                     glm::scale(glm::vec3(entity().size(), 0.0f))));
   glBegin(fill_ ? GL_QUADS : GL_LINE_LOOP);
-  glVertex2fv(
-      glm::value_ptr(glm::rotate(entity().size() * -0.5f, entity().rot())));
-  glVertex2fv(
-      glm::value_ptr(
-          glm::rotate(entity().size() * glm::vec2(-0.5f, 0.5f),
-                      entity().rot())));
-  glVertex2fv(
-      glm::value_ptr(glm::rotate(entity().size() * 0.5f, entity().rot())));
-  glVertex2fv(
-      glm::value_ptr(
-          glm::rotate(entity().size() * glm::vec2(0.5f, -0.5f),
-                      entity().rot())));
+  glTexCoord2f(0.0f, 0.0f);
+  glVertex2fv(glm::value_ptr(glm::vec2(-0.5f)));
+  glTexCoord2f(0.0f, 1.0f);
+  glVertex2fv(glm::value_ptr(glm::vec2(-0.5f, 0.5f)));
+  glTexCoord2f(1.0f, 1.0f);
+  glVertex2fv(glm::value_ptr(glm::vec2(0.5f)));
+  glTexCoord2f(1.0f, 0.0f);
+  glVertex2fv(glm::value_ptr(glm::vec2(0.5f, -0.5f)));
   glEnd();
   glPopMatrix();
+}
+
+EntityTextureDraw::EntityTextureDraw(PlanarEntity &entity, GLuint texname)
+    : EntityRectangleDraw(entity, true, nullptr),
+      texname_(texname) {
+}
+
+void EntityTextureDraw::Draw() const {
+  if (0 != texname_) {
+    glBindTexture(GL_TEXTURE_2D , texname_);
+    EntityRectangleDraw::Draw();
+  }
 }
 
 } /* namespace mojgame */

@@ -105,6 +105,25 @@ class EntityRectangleDraw : public PlanarEntityDraw {
   bool fill_;
 };
 
+class EntityTextureDraw : public EntityRectangleDraw {
+ public:
+  EntityTextureDraw(PlanarEntity &entity, GLuint texname = 0);
+  virtual ~EntityTextureDraw() {
+  }
+
+  virtual void Draw() const;
+
+  GLuint texname() const {
+    return texname_;
+  }
+  void set_texname(GLuint texname) {
+    texname_ = texname;
+  }
+
+ private:
+  GLuint texname_;
+};
+
 } /* namespace mojgame */
 
 #endif /* MOJGAMELIB_CATALOGUE_ENTITYEXTENTION_PLANARENTITYDRAW_H_ */
