@@ -14,6 +14,7 @@ class AnimationMap {
   enum AnimationType {
     kAnimationIdle,
     kAnimationWalk,
+    kAnimationFly,
     kAnimationDamaged,
     kAnimationChant,
   /* max number is (2^16)-1 */
