@@ -11,19 +11,15 @@
 
 namespace mojgame {
 
-class AnimationDrawer : public mojgame::NonCopyable<
-    AnimationDrawer> {
+class AnimationDrawer {
  public:
-  AnimationDrawer(const AnimationResource &resource);
+  AnimationDrawer();
   virtual ~AnimationDrawer() {
   }
 
   void Draw(const Animation *animation, float time,
-            const glm::vec2 &translation, float rotation,
-            const glm::vec2 &scaling);
-
- private:
-  const AnimationResource &resource_;
+            const AnimationResource &resource, const glm::vec2 &translation,
+            float rotation, const glm::vec2 &scaling);
 };
 
 } /* namespace mojgame */

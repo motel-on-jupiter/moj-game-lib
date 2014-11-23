@@ -9,18 +9,15 @@
 
 namespace mojgame {
 
-AnimationDrawer::AnimationDrawer(
-    const AnimationResource &resource)
-    : resource_(resource) {
+AnimationDrawer::AnimationDrawer() {
 }
 
-void AnimationDrawer::Draw(const Animation *anim,
-                                       float time, const glm::vec2 &translation,
-                                       float rotation,
-                                       const glm::vec2 &scaling) {
+void AnimationDrawer::Draw(const Animation *anim, float time,
+                           const AnimationResource &resource,
+                           const glm::vec2 &translation, float rotation,
+                           const glm::vec2 &scaling) {
   if (anim != nullptr) {
-    const Animation::AnimationFrame *anim_frame = anim->GetFrame(
-        time);
+    const Animation::AnimationFrame *anim_frame = anim->GetFrame(time);
     if (anim_frame == nullptr) {
       return;
     }
@@ -29,7 +26,7 @@ void AnimationDrawer::Draw(const Animation *anim,
                               time);
       return;
     }
-    GLuint texname = resource_.texname(anim_frame->resource_id);
+    GLuint texname = resource.texname(anim_frame->resource_id);
     if (texname == 0) {
       mojgame::LOGGER().Error(
           "Failed to get valid texture name (time: %f, resource_id: %d)", time,
