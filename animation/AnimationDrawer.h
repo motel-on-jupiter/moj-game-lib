@@ -11,15 +11,20 @@
 
 namespace mojgame {
 
+class AnimationPlayer;
+
 class AnimationDrawer {
  public:
   AnimationDrawer();
   virtual ~AnimationDrawer() {
   }
 
-  void Draw(const Animation *animation, float time,
+  void Draw(const Animation &animation, float time,
             const AnimationResource &resource, const glm::vec2 &translation,
             float rotation, const glm::vec2 &scaling);
+  void Draw(const AnimationPlayer &player, const AnimationResource &resource,
+            const glm::vec2 &translation, float rotation,
+            const glm::vec2 &scaling);
 };
 
 } /* namespace mojgame */
