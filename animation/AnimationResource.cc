@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel On Jupiter
  */
+#ifdef MOJGAMELIB_WITH_SDLIMAGE
+
 #include "mojgame/animation/AnimationResource.h"
 #include "mojgame/includer/gl_include.h"
 #include "mojgame/includer/sdl_include.h"
@@ -61,3 +63,5 @@ void AnimationResource::Unload() {
 }
 
 } /* namespace mojgame */
+
+#endif /* MOJGAMELIB_WITH_SDLIMAGE */
