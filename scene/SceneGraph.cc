@@ -4,7 +4,7 @@
 #include "mojgame/scene/SceneGraph.h"
 #include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/logging/Logger.h"
-#include "mojgame/scene/BaseScene.h"
+#include "mojgame/scene/Scene.h"
 
 namespace mojgame {
 

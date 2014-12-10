@@ -2,25 +2,16 @@
  * Copyright (C) 2014 The Motel on Jupiter
  */
 #include "mojgame/catalogue/scene/TitleScene.h"
-#include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/includer/gl_include.h"
-#include "mojgame/includer/sdl_include.h"
-#include "mojgame/scene/BaseScene.h"
+#include "mojgame/scene/SceneRenderer.h"
 
 namespace mojgame {
 
-TitleScene::TitleScene(const char *name)
-    : BaseScene(name) {
-}
-
-TitleScene::~TitleScene() {
-}
-
-void TitleScene::Draw(const glm::vec2& window_size) {
-  if (scene_time() - static_cast<float>(static_cast<int>(scene_time()))
-      > 0.8f) {
+bool TitleSceneGLRenderer::OnRendering(const glm::vec2& window_size) {
+  if (scene().time()
+      - static_cast<float>(static_cast<int>(scene().time())) > 0.8f) {
     // for blinking
-    return;
+    return true;
   }
   glPushMatrix();
   glMatrixMode(GL_PROJECTION);
@@ -37,35 +28,7 @@ void TitleScene::Draw(const glm::vec2& window_size) {
   glRasterPos2fv(glm::value_ptr(window_size * 0.5f - string_size * 0.5f));
   glutBitmapString(GLUT_BITMAP_9_BY_15, notice_message);
   glPopMatrix();
-}
-
-void TitleScene::OnKeyDown(const SDL_KeyboardEvent &keyboard) {
-  if (keyboard.keysym.sym == SDLK_RETURN) {
-    set_finished(true);
-  }
-}
-
-void TitleScene::OnKeyUp(const SDL_KeyboardEvent &keyboard) {
-  UNUSED(keyboard);
-}
-
-void TitleScene::OnMouseButtonDown(const SDL_MouseButtonEvent &button) {
-  UNUSED(button);
-}
-
-void TitleScene::OnMouseMotion(const SDL_MouseMotionEvent &motion) {
-  UNUSED(motion);
-}
-
-int TitleScene::OnInitial() {
-  return 0;
-}
-
-void TitleScene::OnFinal() {
-}
-
-void TitleScene::OnStep(float elapsed_time) {
-  UNUSED(elapsed_time);
+  return true;
 }
 
 } /* namespace mojgame */

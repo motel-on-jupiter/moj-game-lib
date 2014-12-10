@@ -14,16 +14,19 @@ class KeyboardEventListenerInterface {
  public:
   virtual ~KeyboardEventListenerInterface() {
   }
-  virtual void React(const SDL_KeyboardEvent &keyboard) = 0;
+  virtual bool React(const SDL_KeyboardEvent &keyboard) = 0;
 };
 
 class MouseEventListenerInterface {
  public:
   virtual ~MouseEventListenerInterface() {
   }
-  virtual void React(const SDL_MouseMotionEvent &motion) = 0;
-  virtual void React(const SDL_MouseButtonEvent &button) = 0;
-  virtual void React(const SDL_MouseWheelEvent &wheel) = 0;
+  virtual bool React(const SDL_MouseMotionEvent &motion,
+                     const glm::vec2 &window_size) = 0;
+  virtual bool React(const SDL_MouseButtonEvent &button,
+                     const glm::vec2 &window_size) = 0;
+  virtual bool React(const SDL_MouseWheelEvent &wheel,
+                     const glm::vec2 &window_size) = 0;
 };
 
 // TODO: event listener for each event

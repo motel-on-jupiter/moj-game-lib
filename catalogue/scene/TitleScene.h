@@ -4,29 +4,28 @@
 #ifndef MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
 #define MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
 
-#include "mojgame/scene/BaseScene.h"
-
-struct SDL_KeyboardEvent;
-struct SDL_MouseButtonEvent;
-struct SDL_MouseMotionEvent;
+#include "mojgame/auxiliary/csyntax_aux.h"
+#include "mojgame/scene/SceneRenderer.h"
 
 namespace mojgame {
 
-class TitleScene : public BaseScene {
+class TitleSceneGLRenderer : public BaseSceneRenderer {
  public:
-  TitleScene(const char *name);
-  virtual ~TitleScene();
-
-  virtual void Draw(const glm::vec2 &window_size);
-  virtual void OnKeyDown(const SDL_KeyboardEvent &keyboard);
-  virtual void OnKeyUp(const SDL_KeyboardEvent &keyboard);
-  virtual void OnMouseButtonDown(const SDL_MouseButtonEvent &button);
-  virtual void OnMouseMotion(const SDL_MouseMotionEvent &motion);
+  TitleSceneGLRenderer(BaseScene &scene)
+      : BaseSceneRenderer(scene) {
+  }
+  virtual ~TitleSceneGLRenderer() {
+  }
 
  protected:
-  virtual int OnInitial();
-  virtual void OnFinal();
-  virtual void OnStep(float elapsed_time);
+  virtual bool OnInitial(const glm::vec2 &window_size) {
+    UNUSED(window_size);
+
+    return true;
+  }
+  virtual void OnFinal() {
+  }
+  virtual bool OnRendering(const glm::vec2 &window_size);
 };
 
 } /* namespace mojgame */

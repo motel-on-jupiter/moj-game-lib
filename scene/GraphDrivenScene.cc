@@ -15,51 +15,24 @@ GraphDrivenScene::GraphDrivenScene(const char *name, const SceneGraph &graph)
 GraphDrivenScene::~GraphDrivenScene() {
 }
 
-void GraphDrivenScene::Draw(const glm::vec2 &window_size) {
-  if (graph_iter_.current() != nullptr) {
-    graph_iter_.current()->Draw(window_size);
-  }
-}
-
-void GraphDrivenScene::OnKeyDown(const SDL_KeyboardEvent &keyboard) {
-  if (graph_iter_.current() != nullptr) {
-    graph_iter_.current()->OnKeyDown(keyboard);
-  }
-}
-
-void GraphDrivenScene::OnKeyUp(const SDL_KeyboardEvent &keyboard) {
-  if (graph_iter_.current() != nullptr) {
-    graph_iter_.current()->OnKeyUp(keyboard);
-  }
-}
-
-void GraphDrivenScene::OnMouseButtonDown(const SDL_MouseButtonEvent &button) {
-  if (graph_iter_.current() != nullptr) {
-    graph_iter_.current()->OnMouseButtonDown(button);
-  }
-}
-
-void GraphDrivenScene::OnMouseMotion(const SDL_MouseMotionEvent &motion) {
-  if (graph_iter_.current() != nullptr) {
-    graph_iter_.current()->OnMouseMotion(motion);
-  }
-}
-
-int GraphDrivenScene::OnInitial() {
+bool GraphDrivenScene::OnInitial() {
   if (!graph_iter_.Initiaize()) {
     mojgame::LOGGER().Error("Failed to initialize graph iterator");
-    return -1;
+    return false;
   }
-  return 0;
+  return true;
 }
 
 void GraphDrivenScene::OnFinal() {
   graph_iter_.Finalize();
 }
 
-void GraphDrivenScene::OnStep(float elapsed_time) {
+bool GraphDrivenScene::OnStep(float elapsed_time) {
   if (graph_iter_.current() != nullptr) {
-    graph_iter_.current()->Step(elapsed_time);
+    if (!graph_iter_.current()->Step(elapsed_time)) {
+      mojgame::LOGGER().Error("Failed to next the scene graph iterator");
+      return false;
+    }
     if (graph_iter_.current()->finished()) {
       std::string prev_name = graph_iter_.current()->name();
       if (graph_iter_.Next(0)) {
@@ -69,9 +42,11 @@ void GraphDrivenScene::OnStep(float elapsed_time) {
         }
       } else {
         mojgame::LOGGER().Error("Failed to next the scene graph iterator");
+        return false;
       }
     }
   }
+  return true;
 }
 
 } /* namespace mojgame */
