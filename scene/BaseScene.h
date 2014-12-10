@@ -8,36 +8,78 @@
 
 namespace mojgame {
 
+class BaseSceneRenderer {
+ public:
+  BaseSceneRenderer(BaseScene &scene)
+      : scene_(scene),
+        initialized_(true) {
+  }
+  virtual ~BaseSceneRenderer();
+
+  bool Initialize() {
+    if (initialized_) {
+      return true;
+    }
+    initialized_ = true;
+    return OnInitial();
+  }
+  void Finalize() {
+    if (initialized_) {
+      OnFinal();
+      initialized_ = false;
+    }
+  }
+  virtual bool Render(const glm::vec2 &window_size) {
+    if (initialized_) {
+      return OnRendering(window_size);
+    }
+    return true;
+  }
+
+ protected:
+  virtual bool OnInitial() = 0;
+  virtual void OnFinal() = 0;
+  virtual bool OnRendering(const glm::vec2 &window_size) = 0;
+
+ private:
+  BaseScene &scene_;
+  bool initialized_;
+};
+
 class BaseScene {
  public:
   BaseScene(const char *name)
       : name_(name),
-        finished_(true),
+        initialized_(true),
         scene_time_(0.0f) {
   }
   virtual ~BaseScene() {
   }
 
   bool Initialize() {
-    finished_ = false;
+    if (initialized_) {
+      return true;
+    }
+    initialized_ = false;
     scene_time_ = 0.0f;
     return OnInitial();
   }
   void Finalize() {
-    OnFinal();
+    if (initialized_) {
+      OnFinal();
+      initialized_ = true;
+    }
   }
   bool Step(float elapsed_time) {
-    scene_time_ += elapsed_time;
-    return OnStep(elapsed_time);
+    if (initialized_) {
+      scene_time_ += elapsed_time;
+      return OnStep(elapsed_time);
+    }
+    return true;
   }
-
-  virtual void Draw(const glm::vec2 &window_size) = 0;
 
   const std::string &name() const {
     return name_;
-  }
-  bool finished() const {
-    return finished_;
   }
   float scene_time() const {
     return scene_time_;
@@ -48,13 +90,9 @@ class BaseScene {
   virtual void OnFinal() = 0;
   virtual bool OnStep(float elapsed_time) = 0;
 
-  void set_finished(bool finished) {
-    finished_ = finished;
-  }
-
  private:
   std::string name_;
-  bool finished_;
+  bool initialized_;
   float scene_time_;
 };
 
