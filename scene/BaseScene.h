@@ -32,10 +32,6 @@ class BaseScene {
   }
 
   virtual void Draw(const glm::vec2 &window_size) = 0;
-  virtual void OnKeyDown(const SDL_KeyboardEvent &key) = 0;
-  virtual void OnKeyUp(const SDL_KeyboardEvent &key) = 0;
-  virtual void OnMouseButtonDown(const SDL_MouseButtonEvent &button) = 0;
-  virtual void OnMouseMotion(const SDL_MouseMotionEvent &motion) = 0;
 
   const std::string &name() const {
     return name_;
