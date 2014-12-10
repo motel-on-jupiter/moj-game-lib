@@ -9,6 +9,21 @@ namespace mojgame {
 
 namespace gl_rendering {
 
+inline void bind_1d_texture(GLuint unit, GLuint name) {
+  glActiveTexture(unit);
+  glBindTexture(GL_TEXTURE_1D, name);
+}
+
+inline void bind_2d_texture(GLuint unit, GLuint name) {
+  glActiveTexture(unit);
+  glBindTexture(GL_TEXTURE_2D, name);
+}
+
+inline void bind_3d_texture(GLuint unit, GLuint name) {
+  glActiveTexture(unit);
+  glBindTexture(GL_TEXTURE_3D, name);
+}
+
 inline void clear_color_buffer() {
   fill_color_buffer(glm::vec3());
 }

@@ -10,6 +10,10 @@ namespace mojgame {
 
 namespace gl_rendering {
 
+extern inline void bind_1d_texture(GLuint unit, GLuint name);
+extern inline void bind_2d_texture(GLuint unit, GLuint name);
+extern inline void bind_3d_texture(GLuint unit, GLuint name);
+
 extern inline void clear_color_buffer();
 extern inline void clear_depth_buffer();
 extern inline void clear_stencil_buffer();
