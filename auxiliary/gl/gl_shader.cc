@@ -145,30 +145,36 @@ inline void delete_programs(std::vector<program_t> names) {
 }
 
 inline void set_uniform_f(program_t name, const char *uniform, float value) {
+  glUseProgram(name);
   glUniform1f(glGetUniformLocation(name, uniform), value);
 }
 
 inline void set_uniform_v2(program_t name, const char *uniform,
                            const glm::vec2 &value) {
+  glUseProgram(name);
   glUniform2fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
 }
 
 inline void set_uniform_v3(program_t name, const char *uniform,
                            const glm::vec3 &value) {
+  glUseProgram(name);
   glUniform3fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
 }
 
 inline void set_uniform_v4(program_t name, const char *uniform,
                            const glm::vec4 &value) {
+  glUseProgram(name);
   glUniform4fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
 }
 
 inline void set_uniform_i(program_t name, const GLchar *uniform, int value) {
+  glUseProgram(name);
   glUniform1i(glGetUniformLocation(name, uniform), value);
 }
 
 inline void set_uniform_iv2(program_t name, const char *uniform,
                             const glm::ivec2 &value) {
+  glUseProgram(name);
   glUniform2iv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
 }
 
