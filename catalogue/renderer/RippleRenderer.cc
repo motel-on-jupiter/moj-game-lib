@@ -76,6 +76,11 @@ void main(void) {
 
 namespace mojgame {
 
+void RandomRippleStimulator::Generate(RippleStimulus &stimulus) {
+  stimulus.pos = glm::linearRand(glm::vec2(0.0f), glm::vec2(1.0f));
+  stimulus.effect = glm::linearRand(0.0f, 1.0f);
+}
+
 RippleGLRenderer::RippleGLRenderer()
     : mojgame::GradationalGLRenderer(kVShaderSource, kFShaderSource, 3),
       stimulator_(),
@@ -112,7 +117,7 @@ bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
        Dettach();
      }
   }
-  if (stimulus.force > 0.0f) {
+  if (stimulus.effect > 0.0f) {
     mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", stimulus.pos);
   } else {
     mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", glm::vec2(0.0f));

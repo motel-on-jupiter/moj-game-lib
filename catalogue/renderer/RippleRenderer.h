@@ -11,18 +11,18 @@ namespace mojgame {
 
 struct RippleStimulus {
   glm::vec2 pos;
-  float force;
+  float effect;
 
   RippleStimulus()
       : pos(),
-        force(0.0f) {
+        effect(0.0f) {
   }
   RippleStimulus(glm::vec2 pos, float force)
       : pos(pos),
-        force(force) {
+        effect(force) {
   }
   void Clear() {
-    force = 0.0f;
+    effect = 0.0f;
   }
 };
 
@@ -44,10 +44,34 @@ class OneshotRippleStimulator : public RippleStimulatorInterface {
     stimulus =  stimulus_;
     stimulus_.Clear();
   }
-  bool IsDead() const { return true; }
+  bool IsDead() const {
+    return true;
+  }
 
  private:
   RippleStimulus stimulus_;
+};
+
+class RandomRippleStimulator : public RippleStimulatorInterface {
+ public:
+  RandomRippleStimulator() {
+  }
+  void Generate(RippleStimulus &stimulus);
+  virtual bool IsDead() const {
+    return true;
+  }
+
+ private:
+  RippleStimulus stimulus_;
+};
+
+class RainyRippleStimulator : public RandomRippleStimulator {
+ public:
+  RainyRippleStimulator() : RandomRippleStimulator() {
+  }
+  virtual bool IsDead() const {
+    return false;
+  }
 };
 
 class RippleGLRenderer : public GradationalGLRenderer {
