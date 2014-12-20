@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2014 The Motel On Jupiter
  */
-#ifndef MOJGAME_CATALOGUE_RENDERER_GL_GRADATIONALGLRENDERER_H_
-#define MOJGAME_CATALOGUE_RENDERER_GL_GRADATIONALGLRENDERER_H_
+#ifndef MOJGAME_CATALOGUE_RENDERER_GRADATIONALRENDERER_H_
+#define MOJGAME_CATALOGUE_RENDERER_GRADATIONALRENDERER_H_
 
 #include <string>
 #include "mojgame/renderer/Renderer.h"
@@ -43,4 +43,4 @@ class GradationalGLRenderer : public BaseRenderer {
 
 } /* namespace mojgame */
 
-#endif /* MOJGAME_CATALOGUE_RENDERER_GL_GRADATIONALGLRENDERER_H_ */
+#endif /* MOJGAME_CATALOGUE_RENDERER_GRADATIONALRENDERER_H_ */

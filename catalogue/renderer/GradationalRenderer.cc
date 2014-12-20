@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2014 The Motel On Jupiter
  */
-#include "mojgame/catalogue/renderer/gl/GradationalGLRenderer.h"
+#include "mojgame/catalogue/renderer/GradationalRenderer.h"
 #include "mojgame/auxiliary/gl/gl_rendering.h"
 #include "mojgame/auxiliary/csyntax_aux.h"
 #include "mojgame/includer/gl_include.h"
