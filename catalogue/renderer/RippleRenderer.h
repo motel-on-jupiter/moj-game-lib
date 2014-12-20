@@ -26,21 +26,46 @@ struct RippleStimulus {
   }
 };
 
+class RippleStimulatorInterface {
+ public:
+  RippleStimulatorInterface() {
+  }
+  virtual ~RippleStimulatorInterface() {
+  }
+  virtual void Generate(RippleStimulus &stimulus) = 0;
+  virtual bool IsDead() const = 0;
+};
+
+class OneshotRippleStimulator : public RippleStimulatorInterface {
+ public:
+  OneshotRippleStimulator(const RippleStimulus &stimulus) : stimulus_(stimulus) {
+  }
+  void Generate(RippleStimulus &stimulus) {
+    stimulus =  stimulus_;
+    stimulus_.Clear();
+  }
+  bool IsDead() const { return true; }
+
+ private:
+  RippleStimulus stimulus_;
+};
+
 class RippleGLRenderer : public GradationalGLRenderer {
  public:
   RippleGLRenderer();
   virtual ~RippleGLRenderer() {
   }
 
-  void Stimulate(const RippleStimulus &stimulus) {
-    stimulus_ = stimulus;
-  }
+  void Stimulate(const RippleStimulus &stimulus);
+  bool Attach(RippleStimulatorInterface &stimulator);
+  void Dettach();
 
  protected:
   virtual bool OnRendering(const glm::vec2 &window_size);
 
  private:
-  RippleStimulus stimulus_;
+  RippleStimulatorInterface *stimulator_;
+  bool created_;
 };
 
 } /* namespace mojgame */

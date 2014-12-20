@@ -78,14 +78,42 @@ namespace mojgame {
 
 RippleGLRenderer::RippleGLRenderer()
     : mojgame::GradationalGLRenderer(kVShaderSource, kFShaderSource, 3),
-      stimulus_() {
+      stimulator_(),
+      created_(false) {
+}
+
+void RippleGLRenderer::Stimulate(const RippleStimulus &stimulus) {
+  stimulator_ = new OneshotRippleStimulator(stimulus);
+  created_ = true;
+}
+
+bool RippleGLRenderer::Attach(RippleStimulatorInterface &stimulator) {
+  if (stimulator_ == nullptr) {
+    stimulator_ = &stimulator;
+    created_ = false;
+    return true;
+  }
+  return false;
+}
+
+void RippleGLRenderer::Dettach() {
+  if (created_) {
+    delete stimulator_;
+  }
+  stimulator_ = nullptr;
 }
 
 bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
   mojgame::gl_shader::set_uniform_2f(gradation_program(), "windowSize", window_size);
-  if (stimulus_.force > 0.0f) {
-    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", stimulus_.pos);
-    stimulus_.Clear();
+  RippleStimulus stimulus;
+  if (stimulator_ != nullptr) {
+     stimulator_->Generate(stimulus);
+     if (stimulator_->IsDead()) {
+       Dettach();
+     }
+  }
+  if (stimulus.force > 0.0f) {
+    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", stimulus.pos);
   } else {
     mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", glm::vec2(0.0f));
   }
