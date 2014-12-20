@@ -4,18 +4,45 @@
 #ifndef MOJGAMELIB_RENDERER_RENDERER_H_
 #define MOJGAMELIB_RENDERER_RENDERER_H_
 
+#include "mojgame/auxiliary/csyntax_aux.h"
+
 namespace mojgame {
 
-class RendererInterface {
+class BaseRenderer : public mojgame::NonCopyable<BaseRenderer> {
  public:
-  RendererInterface() {
+  BaseRenderer()
+      : initialized_(false) {
   }
-  virtual ~RendererInterface() {
+  virtual ~BaseRenderer() {
   }
 
-  virtual bool Initialize(const glm::vec2 &window_size) = 0;
-  virtual void Finalize() = 0;
-  virtual bool Render(const glm::vec2 &window_size) = 0;
+  bool Initialize(const glm::vec2 &window_size) {
+    if (initialized_) {
+      return true;
+    }
+    initialized_ = true;
+    return OnInitial(window_size);
+  }
+  void Finalize() {
+    if (initialized_) {
+      OnFinal();
+      initialized_ = false;
+    }
+  }
+  bool Render(const glm::vec2 &window_size) {
+    if (initialized_) {
+      return OnRendering(window_size);
+    }
+    return true;
+  }
+
+ protected:
+  virtual bool OnInitial(const glm::vec2 &window_size) = 0;
+  virtual void OnFinal() = 0;
+  virtual bool OnRendering(const glm::vec2 &window_size) = 0;
+
+ private:
+  bool initialized_;
 };
 
 } /* namespace mojgame */

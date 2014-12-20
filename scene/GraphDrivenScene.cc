@@ -15,8 +15,26 @@ GraphDrivenScene::GraphDrivenScene(const char *name, const SceneGraph &graph)
 GraphDrivenScene::~GraphDrivenScene() {
 }
 
-bool GraphDrivenScene::OnInitial() {
-  if (!graph_iter_.Initiaize()) {
+bool GraphDrivenScene::Cycle(const glm::vec2 &window_size) {
+  if (graph_iter_.current() != nullptr) {
+    if (graph_iter_.current()->finished()) {
+      std::string prev_name = graph_iter_.current()->name();
+      if (graph_iter_.Next(0, window_size)) {
+        if (graph_iter_.current() == nullptr) {
+          mojgame::LOGGER().Info("Shift the scene (prev: %s, next: %s)", prev_name.c_str(),
+                                 SAFE_STR(graph_iter_.current()->name().c_str()));
+        }
+      } else {
+        mojgame::LOGGER().Error("Failed to next the scene graph iterator");
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+bool GraphDrivenScene::OnInitial(const glm::vec2 &window_size) {
+  if (!graph_iter_.Initiaize(window_size)) {
     mojgame::LOGGER().Error("Failed to initialize graph iterator");
     return false;
   }
@@ -32,18 +50,6 @@ bool GraphDrivenScene::OnStep(float elapsed_time) {
     if (!graph_iter_.current()->Step(elapsed_time)) {
       mojgame::LOGGER().Error("Failed to next the scene graph iterator");
       return false;
-    }
-    if (graph_iter_.current()->finished()) {
-      std::string prev_name = graph_iter_.current()->name();
-      if (graph_iter_.Next(0)) {
-        if (graph_iter_.current() == nullptr) {
-          mojgame::LOGGER().Info("Shift the scene (prev: %s, next: %s)", prev_name.c_str(),
-                                 SAFE_STR(graph_iter_.current()->name().c_str()));
-        }
-      } else {
-        mojgame::LOGGER().Error("Failed to next the scene graph iterator");
-        return false;
-      }
     }
   }
   return true;

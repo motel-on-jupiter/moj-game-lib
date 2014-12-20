@@ -5,16 +5,21 @@
 #define MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
-#include "mojgame/scene/SceneRenderer.h"
+#include "mojgame/renderer/Renderer.h"
 
 namespace mojgame {
 
-class TitleSceneGLRenderer : public BaseSceneRenderer {
+class TitleSceneGLRenderer : public BaseRenderer {
  public:
-  TitleSceneGLRenderer(BaseScene &scene)
-      : BaseSceneRenderer(scene) {
+  TitleSceneGLRenderer()
+      : BaseRenderer(),
+        time_(0.0f) {
   }
   virtual ~TitleSceneGLRenderer() {
+  }
+
+  void Update(float time) {
+    time_ = time;
   }
 
  protected:
@@ -26,6 +31,9 @@ class TitleSceneGLRenderer : public BaseSceneRenderer {
   virtual void OnFinal() {
   }
   virtual bool OnRendering(const glm::vec2 &window_size);
+
+ private:
+  float time_;
 };
 
 } /* namespace mojgame */

@@ -6,6 +6,7 @@
 
 #include <string>
 #include "mojgame/auxiliary/csyntax_aux.h"
+#include "mojgame/renderer/Renderer.h"
 
 namespace mojgame {
 
@@ -20,14 +21,17 @@ class BaseScene {
   virtual ~BaseScene() {
   }
 
-  bool Initialize() {
+  bool Initialize(const glm::vec2 &window_size) {
     if (initialized_) {
       return true;
+    }
+    if (!OnInitial(window_size)) {
+      return false;
     }
     initialized_ = true;
     time_ = 0.0f;
     finished_ = false;
-    return OnInitial();
+    return true;
   }
   void Finalize() {
     if (initialized_) {
@@ -39,6 +43,12 @@ class BaseScene {
     if (initialized_) {
       time_ += elapsed_time;
       return OnStep(elapsed_time);
+    }
+    return true;
+  }
+  bool Render(const glm::vec2 &window_size) {
+    if (initialized_) {
+      return OnRendering(window_size);
     }
     return true;
   }
@@ -57,9 +67,10 @@ class BaseScene {
   }
 
  protected:
-  virtual bool OnInitial() = 0;
+  virtual bool OnInitial(const glm::vec2 &window_size) = 0;
   virtual void OnFinal() = 0;
   virtual bool OnStep(float elapsed_time) = 0;
+  virtual bool OnRendering(const glm::vec2 &window_size) = 0;
 
   void set_finished(bool finished) {
     finished_ = finished;
@@ -70,6 +81,40 @@ class BaseScene {
   bool initialized_;
   float time_;
   bool finished_;
+};
+
+class RendererAttachableScene : public BaseScene {
+ public:
+  RendererAttachableScene(const char *name, BaseRenderer *renderer = nullptr)
+      : BaseScene(name),
+        renderer_(renderer) {
+  }
+
+  void Attach(BaseRenderer *renderer) {
+    renderer_ = renderer;
+  }
+
+ protected:
+  virtual bool OnInitial(const glm::vec2 &window_size) {
+    return renderer_->Initialize(window_size);
+  }
+  virtual void OnFinal() {
+    renderer_->Finalize();
+  }
+  virtual bool OnRenderingWithoutRenderer(const glm::vec2 &window_size) {
+    UNUSED(window_size);
+
+    return true;
+  }
+  bool OnRendering(const glm::vec2 &window_size) {
+    if (renderer_ == nullptr) {
+      return OnRenderingWithoutRenderer(window_size);
+    }
+    return renderer_->Render(window_size);
+  }
+
+ private:
+  BaseRenderer *renderer_;
 };
 
 } /* namespace mojgame */

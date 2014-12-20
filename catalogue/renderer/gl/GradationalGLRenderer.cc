@@ -52,7 +52,7 @@ GradationalGLRenderer::GradationalGLRenderer(const char *gradation_vshader,
       target_texname_(0) {
 }
 
-bool GradationalGLRenderer::Initialize(const glm::vec2 &window_size) {
+bool GradationalGLRenderer::OnInitial(const glm::vec2 &window_size) {
   mojgame::gl_shader::program_t program;
   if (!mojgame::gl_shader::build_program(gradation_vshader_.c_str(),
                                          gradation_fshader_.c_str(),
@@ -104,7 +104,7 @@ bool GradationalGLRenderer::Initialize(const glm::vec2 &window_size) {
   return true;
 }
 
-void GradationalGLRenderer::Finalize() {
+void GradationalGLRenderer::OnFinal() {
   // Delete drawing objects
   glDeleteBuffers(1, &uv_buffer_);
   glDeleteBuffers(1, &vertex_buffer_);
@@ -130,7 +130,7 @@ void GradationalGLRenderer::RenderOnStege1() {
     }
     mojgame::gl_rendering::bind_2d_texture(GL_TEXTURE0 + i, framebuf_.colortexs()[bind]);
     symbol[4] = '0' + static_cast<char>(i);
-    mojgame::gl_shader::set_uniform_i(gradation_program_, symbol, i);
+    mojgame::gl_shader::set_uniform_1i(gradation_program_, symbol, i);
   }
 
   mojgame::glBindDrawFramebuffer(framebuf_.name());
@@ -142,14 +142,14 @@ void GradationalGLRenderer::RenderOnStege2() {
   glUseProgram(blit_program_);
   mojgame::gl_rendering::bind_2d_texture(
       GL_TEXTURE0, framebuf_.colortexs()[target_texname_]);
-  mojgame::gl_shader::set_uniform_i(blit_program_, "texture", 0);
+  mojgame::gl_shader::set_uniform_1i(blit_program_, "texture", 0);
 
   mojgame::glUnbindDrawFramebuffer();
   mojgame::gl_rendering::clear_color_buffer();
   glDrawArrays(GL_QUADS, 0, 4);
 }
 
-bool GradationalGLRenderer::Render(const glm::vec2 &window_size) {
+bool GradationalGLRenderer::OnRendering(const glm::vec2 &window_size) {
   UNUSED(window_size);
 
   /* Do common set-up */

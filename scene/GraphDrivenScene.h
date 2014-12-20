@@ -13,9 +13,10 @@ class GraphDrivenScene : public BaseScene {
  public:
   GraphDrivenScene(const char *name, const SceneGraph &graph);
   virtual ~GraphDrivenScene();
+  bool Cycle(const glm::vec2 &window_size);
 
  protected:
-  virtual bool OnInitial();
+  virtual bool OnInitial(const glm::vec2 &window_size);
   virtual void OnFinal();
   virtual bool OnStep(float elapsed_time);
 

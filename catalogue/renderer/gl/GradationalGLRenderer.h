@@ -9,19 +9,21 @@
 
 namespace mojgame {
 
-class GradationalGLRenderer : public RendererInterface {
+class GradationalGLRenderer : public BaseRenderer {
  public:
   GradationalGLRenderer(const char *gradation_vshader,
                         const char *gradation_fshader, int num_generations);
   virtual ~GradationalGLRenderer() {
   }
-  virtual bool Initialize(const glm::vec2 &window_size);
-  virtual void Finalize();
-  virtual bool Render(const glm::vec2 &window_size);
 
   mojgame::gl_shader::program_t gradation_program() {
     return gradation_program_;
   }
+
+ protected:
+  virtual bool OnInitial(const glm::vec2 &window_size);
+  virtual void OnFinal();
+  virtual bool OnRendering(const glm::vec2 &window_size);
 
  private:
   void RenderOnStege1();

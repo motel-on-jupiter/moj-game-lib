@@ -25,9 +25,9 @@ class SceneGraphIterator : public NonCopyable<SceneGraphIterator> {
   virtual ~SceneGraphIterator() {
   }
 
-  bool Initiaize();
+  bool Initiaize(const glm::vec2 &window_size);
   void Finalize();
-  bool Next(int condition);
+  bool Next(int condition, const glm::vec2 &window_size);
 
   const SceneGraph &graph() const {
     return graph_;
@@ -38,7 +38,8 @@ class SceneGraphIterator : public NonCopyable<SceneGraphIterator> {
 
  private:
   void CleanCurrent();
-  bool NextImpl(BaseScene *previous, int condition);
+  bool NextImpl(BaseScene *previous, int condition,
+                const glm::vec2 &window_size);
 
   const SceneGraph &graph_;
   BaseScene *current_;

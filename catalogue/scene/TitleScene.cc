@@ -3,13 +3,11 @@
  */
 #include "mojgame/catalogue/scene/TitleScene.h"
 #include "mojgame/includer/gl_include.h"
-#include "mojgame/scene/SceneRenderer.h"
 
 namespace mojgame {
 
 bool TitleSceneGLRenderer::OnRendering(const glm::vec2& window_size) {
-  if (scene().time()
-      - static_cast<float>(static_cast<int>(scene().time())) > 0.8f) {
+  if (time_ - static_cast<float>(static_cast<int>(time_)) > 0.8f) {
     // for blinking
     return true;
   }
