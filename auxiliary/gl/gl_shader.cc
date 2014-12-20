@@ -144,40 +144,6 @@ inline void delete_programs(std::vector<program_t> names) {
   }
 }
 
-inline void set_uniform_f(program_t name, const char *uniform, float value) {
-  glUseProgram(name);
-  glUniform1f(glGetUniformLocation(name, uniform), value);
-}
-
-inline void set_uniform_v2(program_t name, const char *uniform,
-                           const glm::vec2 &value) {
-  glUseProgram(name);
-  glUniform2fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
-}
-
-inline void set_uniform_v3(program_t name, const char *uniform,
-                           const glm::vec3 &value) {
-  glUseProgram(name);
-  glUniform3fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
-}
-
-inline void set_uniform_v4(program_t name, const char *uniform,
-                           const glm::vec4 &value) {
-  glUseProgram(name);
-  glUniform4fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
-}
-
-inline void set_uniform_i(program_t name, const GLchar *uniform, int value) {
-  glUseProgram(name);
-  glUniform1i(glGetUniformLocation(name, uniform), value);
-}
-
-inline void set_uniform_iv2(program_t name, const char *uniform,
-                            const glm::ivec2 &value) {
-  glUseProgram(name);
-  glUniform2iv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
-}
-
 inline bool build_program(const char *vshader_source,
                           const char *fshader_source, program_t &name) {
   shader_t vshader, fshader;
@@ -187,12 +153,143 @@ inline bool build_program(const char *vshader_source,
 }
 
 inline bool build_program_from_file(const char *vshader_path,
-                                    const char *fshader_path,
-                                    program_t &name) {
+                                    const char *fshader_path, program_t &name) {
   shader_t vshader, fshader;
   return compile_vshader_from_file(vshader_path, vshader)
       && compile_fshader_from_file(fshader_path, fshader)
       && link_program(vshader, fshader, name);
+}
+
+inline void set_uniform_1f(program_t name, const char *uniform, float value) {
+  glUseProgram(name);
+  glUniform1f(glGetUniformLocation(name, uniform), value);
+}
+
+inline void set_uniform_2f(program_t name, const char *uniform,
+                           const glm::vec2 &value) {
+  glUseProgram(name);
+  glUniform2fv(glGetUniformLocation(name, uniform), 1, glm::value_ptr(value));
+}
+
+inline void set_uniform_3f(program_t name, const char *uniform,
+                           const glm::vec3 &value) {
+  glUseProgram(name);
+  glUniform3f(glGetUniformLocation(name, uniform), value.x, value.y, value.z);
+}
+
+inline void set_uniform_4f(program_t name, const char *uniform,
+                           const glm::vec4 &value) {
+  glUseProgram(name);
+  glUniform4f(glGetUniformLocation(name, uniform), value.x, value.y, value.z,
+              value.w);
+}
+
+inline void set_uniform_1fv(program_t name, const char *uniform,
+                           const float *vector, GLsizei length) {
+  glUseProgram(name);
+  glUniform1fv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_2fv(program_t name, const char *uniform,
+                            const float *vector, GLsizei length) {
+  glUseProgram(name);
+  glUniform2fv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_3fv(program_t name, const char *uniform,
+                            const float *vector, GLsizei length) {
+  glUseProgram(name);
+  glUniform3fv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_4fv(program_t name, const char *uniform,
+                            const float *vector, GLsizei length) {
+  glUseProgram(name);
+  glUniform4fv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_1i(program_t name, const GLchar *uniform, int value) {
+  glUseProgram(name);
+  glUniform1iv(glGetUniformLocation(name, uniform), 1, &value);
+}
+
+inline void set_uniform_2i(program_t name, const char *uniform,
+                           const glm::ivec2 &value) {
+  glUseProgram(name);
+  glUniform2i(glGetUniformLocation(name, uniform), value.x, value.y);
+}
+
+inline void set_uniform_3i(program_t name, const char *uniform,
+                           const glm::ivec3 &value) {
+  glUseProgram(name);
+  glUniform3i(glGetUniformLocation(name, uniform), value.x, value.y, value.z);
+}
+
+inline void set_uniform_4i(program_t name, const char *uniform,
+                           const glm::ivec4 &value) {
+  glUseProgram(name);
+  glUniform4i(glGetUniformLocation(name, uniform), value.x, value.y, value.z,
+              value.w);
+}
+
+inline void set_uniform_1iv(program_t name, const char *uniform, const int *vector, int length) {
+  glUseProgram(name);
+  glUniform1iv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_2iv(program_t name, const char *uniform, const int *vector, int length) {
+  glUseProgram(name);
+  glUniform2iv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_3iv(program_t name, const char *uniform, const int *vector, int length) {
+  glUseProgram(name);
+  glUniform3iv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_4iv(program_t name, const char *uniform, const int *vector, int length) {
+  glUseProgram(name);
+  glUniform4iv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_1ui(program_t name, const char *uniform, unsigned int value) {
+  glUseProgram(name);
+  glUniform1ui(glGetUniformLocation(name, uniform), value);
+}
+
+inline void set_uniform_2ui(program_t name, const char *uniform, const glm::uvec2 &value) {
+  glUseProgram(name);
+  glUniform2ui(glGetUniformLocation(name, uniform), value.x, value.y);
+}
+
+inline void set_uniform_3ui(program_t name, const char *uniform, const glm::uvec3 &value) {
+  glUseProgram(name);
+  glUniform3ui(glGetUniformLocation(name, uniform), value.x, value.y, value.z);
+}
+
+inline void set_uniform_4ui(program_t name, const char *uniform, const glm::uvec4 &value) {
+  glUseProgram(name);
+  glUniform4ui(glGetUniformLocation(name, uniform), value.x, value.y, value.z, value.w);
+}
+
+inline void set_uniform_1uiv(program_t name, const char *uniform, const unsigned int *vector, int length) {
+  glUseProgram(name);
+  glUniform1uiv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_2uiv(program_t name, const char *uniform, const unsigned int *vector, int length) {
+  glUseProgram(name);
+  glUniform2uiv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_3uiv(program_t name, const char *uniform, const unsigned int *vector, int length) {
+  glUseProgram(name);
+  glUniform3uiv(glGetUniformLocation(name, uniform), length, vector);
+}
+
+inline void set_uniform_4uiv(program_t name, const char *uniform, const unsigned int *vector, int length) {
+  glUseProgram(name);
+  glUniform4uiv(glGetUniformLocation(name, uniform), length, vector);
 }
 
 } /* namespace gl_shader */
