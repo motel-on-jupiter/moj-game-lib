@@ -32,6 +32,9 @@ template<typename T = float, glm::precision P = glm::defaultp> GLM_FUNC_QUALIFIE
 template<typename T = float> GLM_FUNC_QUALIFIER T epsilon() {
   return glm::epsilon<T>();
 }
+template<typename T = float> GLM_FUNC_QUALIFIER T pi() {
+  return glm::pi<T>();
+}
 
 template<typename T = float> GLM_FUNC_QUALIFIER T normalizeAngle(T angle) {
   while (angle > glm::pi<T>()) {
