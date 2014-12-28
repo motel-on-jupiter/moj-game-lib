@@ -28,10 +28,16 @@ inline double saturate(double value) {
 }
 
 inline bool is_fequal(float lvalue, float rvalue) {
-  return glm::epsilonEqual(lvalue, rvalue, glm::epsilon<float>());
+  return glm::abs(lvalue - rvalue) < glm::epsilon<float>();
 }
 inline bool is_fzero(float value) {
-  return is_fequal(value, 0.0f);
+  return glm::abs(value) < glm::epsilon<float>();
+}
+inline bool is_fpositive(float value) {
+  return value >= glm::epsilon<float>();
+}
+inline bool is_fnegative(float value) {
+  return value <= glm::epsilon<float>() * -1.0f;
 }
 
 inline float square(float value) {
