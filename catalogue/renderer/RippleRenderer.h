@@ -4,7 +4,6 @@
 #ifndef MOJGAME_CATALOGUE_RENDERER_RIPPLERENDERER_H_
 #define MOJGAME_CATALOGUE_RENDERER_RIPPLERENDERER_H_
 
-#include <vector>
 #include "mojgame/catalogue/renderer/GradationalRenderer.h"
 #include "mojgame/misc/RadiconMover.h"
 
@@ -97,6 +96,12 @@ class WalkerRippleStimulator : public RippleStimulatorInterface {
   }
   void Rotate(float rot) {
     mover_.Rotate(rot);
+  }
+  void Accel(float accel) {
+    mover_.Accel(accel);
+  }
+  void Brake(float brake) {
+    mover_.Brake(brake);
   }
   void Generate(const glm::vec2 &window_size, RippleStimulus &stimulus);
   virtual bool IsDead() const {
