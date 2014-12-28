@@ -10,6 +10,8 @@ namespace mojgame {
 
 namespace math_aux {
 
+extern float epsilon;
+
 inline int sign(int value) {
   return (value > 0) - (value < 0);
 }
@@ -28,16 +30,16 @@ inline double saturate(double value) {
 }
 
 inline bool is_fequal(float lvalue, float rvalue) {
-  return glm::abs(lvalue - rvalue) < glm::epsilon<float>();
+  return abs(lvalue - rvalue) < epsilon;
 }
 inline bool is_fzero(float value) {
-  return glm::abs(value) < glm::epsilon<float>();
+  return abs(value) < epsilon;
 }
 inline bool is_fpositive(float value) {
-  return value >= glm::epsilon<float>();
+  return value >= epsilon;
 }
 inline bool is_fnegative(float value) {
-  return value <= glm::epsilon<float>() * -1.0f;
+  return value <= epsilon * -1.0f;
 }
 
 inline float square(float value) {
