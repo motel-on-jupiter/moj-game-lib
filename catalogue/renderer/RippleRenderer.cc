@@ -7,6 +7,7 @@
 #include "mojgame/catalogue/renderer/GradationalRenderer.h"
 #include "mojgame/includer/gl_include.h"
 #include "mojgame/includer/glm_include.h"
+#include "mojgame/misc/RadiconMover.h"
 
 #define SHADER_SOURCE(version, ...) "#version " #version "\n" #__VA_ARGS__
 
@@ -76,9 +77,25 @@ void main(void) {
 
 namespace mojgame {
 
-void RandomRippleStimulator::Generate(RippleStimulus &stimulus) {
+void RandomRippleStimulator::Generate(const glm::vec2 &window_size,
+                                      RippleStimulus &stimulus) {
+  UNUSED(window_size);
+
   stimulus.pos = glm::linearRand(glm::vec2(0.0f), glm::vec2(1.0f));
   stimulus.effect = glm::linearRand(0.0f, 1.0f);
+}
+
+void WalkerRippleStimulator::Generate(const glm::vec2 &window_size,
+                                      RippleStimulus &stimulus) {
+  mover_.Move(move_forward_ ? 1.0f : -1.0f);
+  glm::vec2 mergin = glm::vec2(0.0f, feet_mergin_);
+  if (left_foot_landing_) {
+    mergin.y *= -1.0f;
+  }
+  mergin = glm::rotate(mergin, mover_.dir());
+  left_foot_landing_ = !left_foot_landing_;
+  stimulus.pos = (mover_.pos() + mergin) / window_size;
+  stimulus.effect = 1.0f;
 }
 
 RippleGLRenderer::RippleGLRenderer()
@@ -88,6 +105,7 @@ RippleGLRenderer::RippleGLRenderer()
 }
 
 void RippleGLRenderer::Stimulate(const RippleStimulus &stimulus) {
+  Dettach();
   stimulator_ = new OneshotRippleStimulator(stimulus);
   created_ = true;
 }
@@ -109,18 +127,21 @@ void RippleGLRenderer::Dettach() {
 }
 
 bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
-  mojgame::gl_shader::set_uniform_2f(gradation_program(), "windowSize", window_size);
+  mojgame::gl_shader::set_uniform_2f(gradation_program(), "windowSize",
+                                     window_size);
   RippleStimulus stimulus;
   if (stimulator_ != nullptr) {
-     stimulator_->Generate(stimulus);
-     if (stimulator_->IsDead()) {
-       Dettach();
-     }
+    stimulator_->Generate(window_size, stimulus);
+    if (stimulator_->IsDead()) {
+      Dettach();
+    }
   }
   if (stimulus.effect > 0.0f) {
-    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", stimulus.pos);
+    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos",
+                                       stimulus.pos);
   } else {
-    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos", glm::vec2(0.0f));
+    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos",
+                                       glm::vec2(0.0f));
   }
   return mojgame::GradationalGLRenderer::OnRendering(window_size);
 }
