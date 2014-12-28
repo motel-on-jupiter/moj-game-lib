@@ -4,6 +4,8 @@
 #ifndef MOJGAMELIB_MISC_RADICONMOVER_H_
 #define MOJGAMELIB_MISC_RADICONMOVER_H_
 
+#include "mojgame/auxiliary/math_aux.h"
+
 namespace mojgame {
 
 class RadiconMover {
