@@ -72,8 +72,8 @@ class BaseScene {
   virtual bool OnStep(float elapsed_time) = 0;
   virtual bool OnRendering(const glm::vec2 &window_size) = 0;
 
-  void set_finished(bool finished) {
-    finished_ = finished;
+  void Finish() {
+    finished_ = true;
   }
 
  private:
