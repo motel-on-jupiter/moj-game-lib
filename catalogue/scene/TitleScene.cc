@@ -6,8 +6,8 @@
 
 namespace mojgame {
 
-bool TitleSceneGLRenderer::OnRendering(const glm::vec2& window_size) {
-  if (time_ - static_cast<float>(static_cast<int>(time_)) > 0.8f) {
+bool TitleScene::OnRendering(const glm::vec2& window_size) {
+  if (time() - static_cast<float>(static_cast<int>(time())) > 0.8f) {
     // for blinking
     return true;
   }

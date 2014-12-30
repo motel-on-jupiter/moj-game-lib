@@ -5,35 +5,30 @@
 #define MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
-#include "mojgame/renderer/Renderer.h"
+#include "mojgame/scene/Scene.h"
 
 namespace mojgame {
 
-class TitleSceneGLRenderer : public BaseRenderer {
+class TitleScene : public BaseScene {
  public:
-  TitleSceneGLRenderer()
-      : BaseRenderer(),
-        time_(0.0f) {
+  explicit TitleScene(const char *name = "Title")
+      : BaseScene(name) {
   }
-  virtual ~TitleSceneGLRenderer() {
-  }
-
-  void Update(float time) {
-    time_ = time;
+  virtual ~TitleScene() {
   }
 
  protected:
   virtual bool OnInitial(const glm::vec2 &window_size) {
     UNUSED(window_size);
-
     return true;
   }
   virtual void OnFinal() {
   }
+  virtual bool OnStep(float elapsed_time) {
+    UNUSED(elapsed_time);
+    return true;
+  }
   virtual bool OnRendering(const glm::vec2 &window_size);
-
- private:
-  float time_;
 };
 
 } /* namespace mojgame */
