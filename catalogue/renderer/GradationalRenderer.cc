@@ -168,6 +168,7 @@ bool GradationalGLRenderer::OnRendering(const glm::vec2 &window_size) {
   /* Do common clean-up */
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(0);
+  glUseProgram(0);
   return true;
 }
 

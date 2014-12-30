@@ -5,30 +5,35 @@
 #define MOJGAMELIB_CATALOGUE_SCENE_TITLESCENE_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
+#include "mojgame/catalogue/renderer/TelopRenderer.h"
 #include "mojgame/scene/Scene.h"
 
 namespace mojgame {
 
-class TitleScene : public BaseScene {
+class GLTitleTelopRenderer : public GLTelopRenderer {
  public:
-  explicit TitleScene(const char *name = "Title")
-      : BaseScene(name) {
+  GLTitleTelopRenderer() : GLTelopRenderer("PRESS ENTER KEY", glm::vec2(0.5f)) {
   }
-  virtual ~TitleScene() {
+};
+
+class GLTitleScene : public RendererAttachableScene {
+ public:
+  explicit GLTitleScene(const char *name = "Title")
+      : RendererAttachableScene(name, &renderer_),
+        renderer_() {
+  }
+  virtual ~GLTitleScene() {
   }
 
  protected:
-  virtual bool OnInitial(const glm::vec2 &window_size) {
-    UNUSED(window_size);
-    return true;
-  }
-  virtual void OnFinal() {
-  }
-  virtual bool OnStep(float elapsed_time) {
+  bool OnStep(float elapsed_time) {
     UNUSED(elapsed_time);
     return true;
   }
-  virtual bool OnRendering(const glm::vec2 &window_size);
+  bool OnRendering(const glm::vec2& window_size);
+
+ private:
+  GLTitleTelopRenderer renderer_;
 };
 
 } /* namespace mojgame */
