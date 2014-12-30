@@ -49,6 +49,7 @@ int GLFrameBuffer::SetUp(const glm::vec2 &window_size, int num_color_tex) {
   glDrawFramebufferDepthTexture(depthtex_, 0);
 
   GLenum status = glCheckDrawFramebufferStatus();
+  glUnbindDrawFramebuffer();
   if (status != GL_FRAMEBUFFER_COMPLETE) {
     LOGGER().Error("Failed to complete frame buffer (status: %d)", status);
     return -1;
