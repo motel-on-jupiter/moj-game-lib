@@ -96,10 +96,15 @@ class RendererAttachableScene : public BaseScene {
 
  protected:
   virtual bool OnInitial(const glm::vec2 &window_size) {
-    return renderer_->Initialize(window_size);
+    if (renderer_ != nullptr) {
+      return renderer_->Initialize(window_size);
+    }
+    return true;
   }
   virtual void OnFinal() {
-    renderer_->Finalize();
+    if (renderer_ != nullptr) {
+      renderer_->Finalize();
+    }
   }
   virtual bool OnRenderingWithoutRenderer(const glm::vec2 &window_size) {
     UNUSED(window_size);
