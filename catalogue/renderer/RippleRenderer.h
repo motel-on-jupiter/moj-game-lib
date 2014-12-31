@@ -4,6 +4,8 @@
 #ifndef MOJGAME_CATALOGUE_RENDERER_RIPPLERENDERER_H_
 #define MOJGAME_CATALOGUE_RENDERER_RIPPLERENDERER_H_
 
+#include <utility>
+#include <vector>
 #include "mojgame/catalogue/renderer/GradationalRenderer.h"
 #include "mojgame/misc/RadiconMover.h"
 
@@ -120,19 +122,17 @@ class WalkerRippleStimulator : public RippleStimulatorInterface {
 class RippleGLRenderer : public GradationalGLRenderer {
  public:
   RippleGLRenderer();
-  virtual ~RippleGLRenderer() {
-  }
+  virtual ~RippleGLRenderer();
 
-  void Receive(const RippleStimulus &stimulus);
-  bool Attach(RippleStimulatorInterface &stimulator);
-  void Dettach();
+  bool Receive(const RippleStimulus &stimulus);
+  void Attach(RippleStimulatorInterface &stimulator);
 
  protected:
   virtual bool OnRendering(const glm::vec2 &window_size);
 
  private:
-  RippleStimulatorInterface *stimulator_;
-  bool created_;
+  typedef std::pair<RippleStimulatorInterface *, bool> AttachedStimulator;
+  std::vector<AttachedStimulator> stimulators_;
 };
 
 } /* namespace mojgame */

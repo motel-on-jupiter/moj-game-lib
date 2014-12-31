@@ -33,17 +33,19 @@ layout (location = 0) out vec4 fragmentColor;
 uniform sampler2D prev0_tex;
 uniform sampler2D prev1_tex;
 uniform vec2 windowSize;
-uniform vec2 dropPos;
+uniform vec2 stimulusPoss[10];
 
 const float kEpsilon = 0.0000001;
 
 void main(void) {
   vec2 texelSize = vec2(1.0) / windowSize;
-  if (length(dropPos) > kEpsilon) {
-    if ((abs(dropPos.x - vertexUv.x) < texelSize.x * 0.6) &&
-        (abs(dropPos.y - vertexUv.y) < texelSize.y * 0.6)) {
-      fragmentColor = vec4(1.0);
-      return;
+  for (int i = 0; i < 10; ++i) {
+    if (length(stimulusPoss[i]) > kEpsilon) {
+      if ((abs(stimulusPoss[i].x - vertexUv.x) < texelSize.x * 0.6) &&
+          (abs(stimulusPoss[i].y - vertexUv.y) < texelSize.y * 0.6)) {
+        fragmentColor = vec4(1.0);
+        return;
+      }
     }
   }
 
@@ -100,49 +102,53 @@ void WalkerRippleStimulator::Generate(const glm::vec2 &window_size,
 
 RippleGLRenderer::RippleGLRenderer()
     : mojgame::GradationalGLRenderer(kVShaderSource, kFShaderSource, 3),
-      stimulator_(),
-      created_(false) {
+      stimulators_() {
 }
 
-void RippleGLRenderer::Receive(const RippleStimulus &stimulus) {
-  Dettach();
-  stimulator_ = new OneshotRippleStimulator(stimulus);
-  created_ = true;
-}
-
-bool RippleGLRenderer::Attach(RippleStimulatorInterface &stimulator) {
-  if (stimulator_ == nullptr) {
-    stimulator_ = &stimulator;
-    created_ = false;
-    return true;
+RippleGLRenderer::~RippleGLRenderer() {
+  for (auto it = stimulators_.begin(); it != stimulators_.end();) {
+    if (it->second) {
+      delete it->first;
+    }
   }
-  return false;
 }
 
-void RippleGLRenderer::Dettach() {
-  if (created_) {
-    delete stimulator_;
+bool RippleGLRenderer::Receive(const RippleStimulus &stimulus) {
+  RippleStimulatorInterface *stimulator = new OneshotRippleStimulator(stimulus);
+  if (stimulator == nullptr) {
+    LOGGER().Error("Failed to create stimulator");
+    return false;
   }
-  stimulator_ = nullptr;
+  stimulators_.push_back(AttachedStimulator(stimulator, true));
+  return true;
+}
+
+void RippleGLRenderer::Attach(RippleStimulatorInterface &stimulator) {
+  stimulators_.push_back(AttachedStimulator(&stimulator, false));
 }
 
 bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
   mojgame::gl_shader::set_uniform_2f(gradation_program(), "windowSize",
                                      window_size);
   RippleStimulus stimulus;
-  if (stimulator_ != nullptr) {
-    stimulator_->Generate(window_size, stimulus);
-    if (stimulator_->IsDead()) {
-      Dettach();
+  std::vector<glm::vec2> stimulus_poss;
+  for (auto it = stimulators_.begin(); it != stimulators_.end();) {
+    if (it->first != nullptr) {
+      it->first->Generate(window_size, stimulus);
+      stimulus_poss.push_back(stimulus.pos);
+      if (it->first->IsDead()) {
+        if (it->second) {
+          delete it->first;
+        }
+        it = stimulators_.erase(it);
+      } else {
+        ++it;
+      }
     }
   }
-  if (stimulus.effect > 0.0f) {
-    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos",
-                                       stimulus.pos);
-  } else {
-    mojgame::gl_shader::set_uniform_2f(gradation_program(), "dropPos",
-                                       glm::vec2(0.0f));
-  }
+  stimulus_poss.resize(10);
+  mojgame::gl_shader::set_uniform_2fv(gradation_program(), "stimulusPoss",
+                                      glm::value_ptr(stimulus_poss[0]), 10);
   return mojgame::GradationalGLRenderer::OnRendering(window_size);
 }
 
