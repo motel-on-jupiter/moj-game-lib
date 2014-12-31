@@ -18,6 +18,7 @@ bool PlanarActor::Step(float elapsed_time) {
     } else {
       set_pos(pos() + glm::normalize(to_dst) * approachable);
     }
+    set_rot(atan2(to_dst.y, to_dst.x));
   }
   return OnStep(elapsed_time);
 }
