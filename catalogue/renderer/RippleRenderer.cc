@@ -34,6 +34,7 @@ uniform sampler2D prev0_tex;
 uniform sampler2D prev1_tex;
 uniform vec2 windowSize;
 uniform vec2 stimulusPoss[10];
+uniform float stimulusEffects[10];
 
 const float kEpsilon = 0.0000001;
 
@@ -43,7 +44,7 @@ void main(void) {
     if (length(stimulusPoss[i]) > kEpsilon) {
       if ((abs(stimulusPoss[i].x - vertexUv.x) < texelSize.x * 0.6) &&
           (abs(stimulusPoss[i].y - vertexUv.y) < texelSize.y * 0.6)) {
-        fragmentColor = vec4(1.0);
+        fragmentColor = vec4(stimulusEffects[i]);
         return;
       }
     }
@@ -106,7 +107,7 @@ RippleGLRenderer::RippleGLRenderer()
 }
 
 RippleGLRenderer::~RippleGLRenderer() {
-  for (auto it = stimulators_.begin(); it != stimulators_.end();) {
+  for (auto it = stimulators_.begin(); it != stimulators_.end(); ++it) {
     if (it->second) {
       delete it->first;
     }
@@ -132,10 +133,12 @@ bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
                                      window_size);
   RippleStimulus stimulus;
   std::vector<glm::vec2> stimulus_poss;
+  std::vector<float> stimulus_effects;
   for (auto it = stimulators_.begin(); it != stimulators_.end();) {
     if (it->first != nullptr) {
       it->first->Generate(window_size, stimulus);
       stimulus_poss.push_back(stimulus.pos);
+      stimulus_effects.push_back(stimulus.effect);
       if (it->first->IsDead()) {
         if (it->second) {
           delete it->first;
@@ -147,8 +150,11 @@ bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
     }
   }
   stimulus_poss.resize(10);
+  stimulus_effects.resize(10);
   mojgame::gl_shader::set_uniform_2fv(gradation_program(), "stimulusPoss",
                                       glm::value_ptr(stimulus_poss[0]), 10);
+  mojgame::gl_shader::set_uniform_1fv(gradation_program(), "stimulusEffects",
+                                      stimulus_effects.data(), 10);
   return mojgame::GradationalGLRenderer::OnRendering(window_size);
 }
 
