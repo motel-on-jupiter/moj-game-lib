@@ -123,7 +123,7 @@ class RippleGLRenderer : public GradationalGLRenderer {
   virtual ~RippleGLRenderer() {
   }
 
-  void Stimulate(const RippleStimulus &stimulus);
+  void Receive(const RippleStimulus &stimulus);
   bool Attach(RippleStimulatorInterface &stimulator);
   void Dettach();
 

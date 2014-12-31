@@ -104,7 +104,7 @@ RippleGLRenderer::RippleGLRenderer()
       created_(false) {
 }
 
-void RippleGLRenderer::Stimulate(const RippleStimulus &stimulus) {
+void RippleGLRenderer::Receive(const RippleStimulus &stimulus) {
   Dettach();
   stimulator_ = new OneshotRippleStimulator(stimulus);
   created_ = true;
