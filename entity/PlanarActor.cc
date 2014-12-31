@@ -28,13 +28,22 @@ void PlanarActor::Appear(const glm::vec2 &pos, float rot,
   set_pos(pos);
   set_rot(rot);
   set_size(size);
+  appeared_ = true;
   walking_ = false;
-  OnAppearing(pos, rot, size);
+}
+
+void PlanarActor::Disappear() {
+  appeared_ = false;
+  walking_ = false;
 }
 
 void PlanarActor::Walk(const glm::vec2 &dst) {
-  walking_ = true;
-  walk_dst_ = dst;
+  if (appeared_) {
+    walking_ = true;
+    walk_dst_ = dst;
+  } else {
+    mojgame::LOGGER().Warn("Cannot walk so that not appeared");
+  }
 }
 
 } /* namespace mojgame */

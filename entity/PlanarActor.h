@@ -15,6 +15,7 @@ class PlanarActor : public mojgame::PlanarEntity {
   PlanarActor(float speed)
       : mojgame::PlanarEntity(glm::vec2(), 0.0f, glm::vec2()),
         walk_speed_(speed),
+        appeared_(false),
         walking_(false),
         walk_dst_() {
   }
@@ -23,8 +24,12 @@ class PlanarActor : public mojgame::PlanarEntity {
 
   bool Step(float elapsed_time);
   void Appear(const glm::vec2 &pos, float rot, const glm::vec2 &size);
+  void Disappear();
   void Walk(const glm::vec2 &dst);
 
+  bool appeared() const {
+    return appeared_;
+  }
   bool walking() const {
     return walking_;
   }
@@ -34,15 +39,10 @@ class PlanarActor : public mojgame::PlanarEntity {
     UNUSED(elapsed_time);
     return true;
   }
-  virtual void OnAppearing(const glm::vec2 &pos, float rot,
-                           const glm::vec2 &size) {
-    UNUSED(pos);
-    UNUSED(rot);
-    UNUSED(size);
-  }
 
  private:
   float walk_speed_;
+  bool appeared_;
   bool walking_;
   glm::vec2 walk_dst_;
 };
