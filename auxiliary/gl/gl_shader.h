@@ -31,7 +31,7 @@ extern inline bool build_program_from_file(const char *vshader_path,
                                            const char *fshader_path,
                                            program_t &name);
 
-extern inline void set_uniform_f(program_t name, const char *uniform,
+extern inline void set_uniform_1f(program_t name, const char *uniform,
                                  float value);
 extern inline void set_uniform_2f(program_t name, const char *uniform,
                                   const glm::vec2 &value);
@@ -39,7 +39,7 @@ extern inline void set_uniform_3f(program_t name, const char *uniform,
                                   const glm::vec3 &value);
 extern inline void set_uniform_4f(program_t name, const char *uniform,
                                   const glm::vec4 &value);
-extern inline void set_uniform_fv(program_t name, const char *uniform,
+extern inline void set_uniform_1fv(program_t name, const char *uniform,
                                   const float *vector, int length);
 extern inline void set_uniform_2fv(program_t name, const char *uniform,
                                    const float *vector, int length);
