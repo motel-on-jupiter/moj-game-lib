@@ -24,9 +24,7 @@ static const unsigned char kNavy[] = { 0x00, 0x00, 0x80 };
 static const unsigned char kBlue[] = { 0x00, 0x00, 0xFF };
 static const unsigned char kTeal[] = { 0x00, 0x80, 0x80 };
 static const unsigned char kAqua[] = { 0x00, 0xFF, 0xFF };
-
-extern glm::vec3 to_fvec(const unsigned char (&color)[3]);
-}
+} /* namespace WebColor */
 
 // X11 colors (http://www.w3.org/TR/css3-color/#svg-color)
 namespace X11Color {
@@ -177,9 +175,11 @@ static const unsigned char kWhite[] = { 0xFF, 0xFF, 0xFF };
 static const unsigned char kWhiteSmoke[] = { 0xF5, 0xF5, 0xF5 };
 static const unsigned char kYellow[] = { 0xFF, 0xFF, 0x00 };
 static const unsigned char kYellowGreen[] = { 0x9A, 0xCD, 0x32 };
+} /* namespace X11Color */
 
+namespace color_sample {
 extern glm::vec3 to_fvec(const unsigned char (&color)[3]);
-}
+} /* namespace color_sample */
 
 } /* namespace mojgame */
 
