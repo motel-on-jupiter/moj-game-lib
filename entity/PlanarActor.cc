@@ -7,14 +7,15 @@
 namespace mojgame {
 
 bool PlanarActor::Step(float elapsed_time) {
-  if (walking_) {
+  if (walk_target_ != nullptr) {
     float approachable = walk_speed_ * elapsed_time;
-    glm::vec2 to_dst = walk_dst_ - pos();
+    glm::vec2 to_dst = walk_target_->pos() - pos();
     float distance = glm::length(to_dst);
     if (!mojgame::math_aux::is_fpositive(distance)
         || approachable > glm::length(to_dst)) {
-      walking_ = false;
-      set_pos(walk_dst_);
+      set_pos(walk_target_->pos());
+      walk_target_ = nullptr;
+      OnWalkFinished();
     } else {
       set_pos(pos() + glm::normalize(to_dst) * approachable);
     }
@@ -28,22 +29,36 @@ void PlanarActor::Appear(const glm::vec2 &pos, float rot,
   set_pos(pos);
   set_rot(rot);
   set_size(size);
+
   appeared_ = true;
-  walking_ = false;
+  walk_target_ = nullptr;
 }
 
 void PlanarActor::Disappear() {
   appeared_ = false;
-  walking_ = false;
+  walk_target_ = nullptr;
 }
 
 void PlanarActor::Walk(const glm::vec2 &dst) {
   if (appeared_) {
-    walking_ = true;
-    walk_dst_ = dst;
+    dummy_entity_.set_pos(dst);
+    walk_target_ = &dummy_entity_;
   } else {
     mojgame::LOGGER().Warn("Cannot walk so that not appeared");
   }
+}
+
+void PlanarActor::Walk(const mojgame::PlanarEntity &target) {
+  if (appeared_) {
+    walk_target_ = &target;
+  } else {
+    mojgame::LOGGER().Warn("Cannot walk so that not appeared");
+  }
+}
+
+void PlanarActor::Stop() {
+  walk_target_ = nullptr;
+  OnWalkFinished();
 }
 
 } /* namespace mojgame */
