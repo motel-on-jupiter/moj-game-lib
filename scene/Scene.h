@@ -83,45 +83,6 @@ class BaseScene {
   bool finished_;
 };
 
-class RendererAttachableScene : public BaseScene {
- public:
-  RendererAttachableScene(const char *name, BaseRenderer *renderer = nullptr)
-      : BaseScene(name),
-        renderer_(renderer) {
-  }
-
-  void Attach(BaseRenderer *renderer) {
-    renderer_ = renderer;
-  }
-
- protected:
-  virtual bool OnInitial(const glm::vec2 &window_size) {
-    if (renderer_ != nullptr) {
-      return renderer_->Initialize(window_size);
-    }
-    return true;
-  }
-  virtual void OnFinal() {
-    if (renderer_ != nullptr) {
-      renderer_->Finalize();
-    }
-  }
-  virtual bool OnRenderingWithoutRenderer(const glm::vec2 &window_size) {
-    UNUSED(window_size);
-
-    return true;
-  }
-  bool OnRendering(const glm::vec2 &window_size) {
-    if (renderer_ == nullptr) {
-      return OnRenderingWithoutRenderer(window_size);
-    }
-    return renderer_->Render(window_size);
-  }
-
- private:
-  BaseRenderer *renderer_;
-};
-
 } /* namespace mojgame */
 
 #endif /* MOJGAMELIB_SCENE_SCENE_H_ */

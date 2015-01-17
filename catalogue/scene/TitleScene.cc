@@ -11,7 +11,7 @@ bool GLTitleScene::OnRendering(const glm::vec2& window_size) {
     // for blinking
     return true;
   }
-  return RendererAttachableScene::OnRendering(window_size);
+  return renderer_.Render(window_size);
 }
 
 } /* namespace mojgame */

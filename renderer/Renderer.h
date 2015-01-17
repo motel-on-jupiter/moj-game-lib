@@ -15,20 +15,6 @@ class BaseRenderer : public mojgame::NonCopyable<BaseRenderer> {
   }
   virtual ~BaseRenderer() {
   }
-
-  bool Initialize(const glm::vec2 &window_size) {
-    if (initialized_) {
-      return true;
-    }
-    initialized_ = true;
-    return OnInitial(window_size);
-  }
-  void Finalize() {
-    if (initialized_) {
-      OnFinal();
-      initialized_ = false;
-    }
-  }
   bool Render(const glm::vec2 &window_size) {
     if (initialized_) {
       return OnRendering(window_size);
@@ -37,9 +23,10 @@ class BaseRenderer : public mojgame::NonCopyable<BaseRenderer> {
   }
 
  protected:
-  virtual bool OnInitial(const glm::vec2 &window_size) = 0;
-  virtual void OnFinal() = 0;
   virtual bool OnRendering(const glm::vec2 &window_size) = 0;
+  void set_initialized(bool initialized) {
+    initialized_ = initialized;
+  }
 
  private:
   bool initialized_;

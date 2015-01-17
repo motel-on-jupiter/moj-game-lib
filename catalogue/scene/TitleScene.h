@@ -16,16 +16,23 @@ class GLTitleTelopRenderer : public GLTelopRenderer {
   }
 };
 
-class GLTitleScene : public RendererAttachableScene {
+class GLTitleScene : public BaseScene {
  public:
   explicit GLTitleScene(const char *name = "Title")
-      : RendererAttachableScene(name, &renderer_),
+      : BaseScene(name),
         renderer_() {
   }
   virtual ~GLTitleScene() {
   }
 
  protected:
+  bool OnInitial(const glm::vec2 &window_size) {
+    UNUSED(window_size);
+    return renderer_.Initialize();
+  }
+  void OnFinal() {
+    renderer_.Finalize();
+  }
   bool OnStep(float elapsed_time) {
     UNUSED(elapsed_time);
     return true;
