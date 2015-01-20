@@ -5,18 +5,24 @@
 #define MOJGAMELIB_CATALOGUE_RENDERER_TELOPRENDERER_H_
 
 #include "mojgame/auxiliary/csyntax_aux.h"
+#include "mojgame/auxiliary/sdlttf_aux.h"
+#include "mojgame/includer/glm_include.h"
+#include "mojgame/includer/sdlttf_include.h"
 #include "mojgame/renderer/Renderer.h"
 
 namespace mojgame {
 
-class GLTelopRenderer : public BaseRenderer {
+class TelopRenderer : public BaseRenderer {
  public:
-  GLTelopRenderer(const char *telop_text = "", const glm::vec2 &telop_pos =
-                      glm::vec2(0.5f))
+  TelopRenderer()
+      : telop_text_(""),
+        telop_pos_(glm::vec2(0.5f)) {
+  }
+  TelopRenderer(const char *telop_text, const glm::vec2 &telop_pos)
       : telop_text_(telop_text),
         telop_pos_(telop_pos) {
   }
-  virtual ~GLTelopRenderer() {
+  ~TelopRenderer() {
   }
 
   void Reset(const char *telop_text, const glm::vec2 &telop_pos) {
@@ -30,20 +36,67 @@ class GLTelopRenderer : public BaseRenderer {
   void set_telop_pos(const glm::vec2 &telop_pos) {
     telop_pos_ = telop_pos;
   }
-
- protected:
-  virtual bool OnInitial(const glm::vec2 &window_size) {
-    UNUSED(window_size);
-    return true;
+  const std::string &telop_text() const{
+    return telop_text_;
   }
-  virtual void OnFinal() {
+  const glm::vec2 & telop_pos() const {
+    return telop_pos_;
   }
-  virtual bool OnRendering(const glm::vec2 &window_size);
 
  private:
   std::string telop_text_;
   glm::vec2 telop_pos_;
 };
+
+class GLTelopRenderer : public TelopRenderer {
+ public:
+  GLTelopRenderer()
+      : TelopRenderer() {
+  }
+  GLTelopRenderer(const char *telop_text, const glm::vec2 &telop_pos)
+      : TelopRenderer(telop_text, telop_pos) {
+  }
+  ~GLTelopRenderer() {
+  }
+  bool Initialize() {
+    set_initialized(true);
+    return true;
+  }
+  void Finalize() {
+    set_initialized(false);
+  }
+
+ protected:
+  bool OnRendering(const glm::vec2 &window_size);
+};
+
+#ifdef MOJGAMELIB_WITH_SDLTTF
+
+class GLTTFTelopRenderer : public TelopRenderer {
+ public:
+  GLTTFTelopRenderer()
+      : TelopRenderer(),
+        font_(nullptr),
+        text_() {
+  }
+  GLTTFTelopRenderer(const char *telop_text, const glm::vec2 &telop_pos)
+      : TelopRenderer(telop_text, telop_pos),
+        font_(nullptr) {
+  }
+  ~GLTTFTelopRenderer() {
+  }
+  bool Initialize(TTF_Font *font);
+  void Finalize();
+
+ protected:
+  bool OnRendering(const glm::vec2 &window_size);
+
+ private:
+  TTF_Font *font_;
+  GLTTFText text_;
+};
+
+#endif /* MOJGAMELIB_WITH_SDLTTF */
 
 } /* namespace mojgame */
 
