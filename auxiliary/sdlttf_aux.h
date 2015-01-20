@@ -12,13 +12,25 @@
 
 namespace mojgame {
 
-namespace sdlttf_aux {
+class GLTTFText {
+ public:
+  GLTTFText()
+      : initialized_(false),
+        surface_(nullptr),
+        texname_(0) {
+  }
+  ~GLTTFText() {
+    Finalize();
+  }
+  bool Initialize(TTF_Font *font, const char *text, const SDL_Color& color);
+  void Finalize();
+  void Render(const glm::vec2 &position, float scale = 1.0f);
 
-extern int RenderTTFText(TTF_Font *Font, const SDL_Color &Color,
-                         const glm::vec2 &Position, const char *
-                         Text);
-
-} /* namespace sdlttf_aux */
+ private:
+  bool initialized_;
+  SDL_Surface *surface_;
+  GLuint texname_;
+};
 
 } /* namespace mojgame */
 
