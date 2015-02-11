@@ -36,6 +36,10 @@ class PlanarActor : public mojgame::PlanarEntity {
     return appeared_;
   }
 
+  void set_walk_speed(float walk_speed) {
+    walk_speed_ = walk_speed;
+  }
+
  protected:
   virtual bool OnStep(float elapsed_time) {
     UNUSED(elapsed_time);
