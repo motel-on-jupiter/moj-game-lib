@@ -43,8 +43,8 @@ namespace AlureBgmPlayer {
   bool Stop(AlureBgm &bgm);
 };
 
-#endif /* MOJGAMELIB_WITH_ALURE */
-
 } /* namespace mojgame */
+
+#endif /* MOJGAMELIB_WITH_ALURE */
 
 #endif /* MOJGAMELIB_AUDIO_BGMPLAYER_H_ */

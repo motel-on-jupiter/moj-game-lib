@@ -19,7 +19,6 @@ bool AlureBgm::Initialize(float pitch, float gain) {
   alGenSources(1, &source_);
   if (alGetError() != AL_NO_ERROR) {
     mojgame::LOGGER().Error("Failed to create OpenAL source");
-    alureShutdownDevice();
     return false;
   }
   alSourcef(source_, AL_PITCH, pitch);
@@ -28,11 +27,11 @@ bool AlureBgm::Initialize(float pitch, float gain) {
   alureStreamSizeIsMicroSec(AL_TRUE);
   stream_ = alureCreateStreamFromFile(bgm_file_path_.c_str(), 250000, 0, nullptr);
   if(stream_ == nullptr) {
-    mojgame::LOGGER().Error("Failed to create stream with bgm file "
-                            "(bgm: %s, errmsg: %s)",
+    mojgame::LOGGER().Error("Failed to create stream with audio file "
+                            "(file: %s, errmsg: %s)",
                             bgm_file_path_.c_str(), alureGetErrorString());
     alDeleteSources(1, &source_);
-    return 1;
+    return false;
   }
   return true;
 }
