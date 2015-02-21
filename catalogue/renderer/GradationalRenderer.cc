@@ -28,10 +28,12 @@ in vec2 vertexUv;
 layout (location = 0) out vec4 fragmentColor;
 
 uniform sampler2D texture;
+uniform float filling_level;
 
 void main(void) {
   fragmentColor = texture2D(texture, vertexUv);
   fragmentColor.rgb *= 5.0;
+  fragmentColor.rgb += vec3(1.0, 1.0, 1.0) * filling_level;
 }
 );
 
@@ -49,10 +51,11 @@ GradationalGLRenderer::GradationalGLRenderer(const char *gradation_vshader,
       vertex_array_(0),
       vertex_buffer_(0),
       uv_buffer_(0),
-      target_texname_(0) {
+      target_texname_(0),
+      filling_level_(0.0f) {
 }
 
-bool GradationalGLRenderer::OnInitial(const glm::vec2 &window_size) {
+bool GradationalGLRenderer::Initialize(const glm::vec2 &window_size) {
   mojgame::gl_shader::program_t program;
   if (!mojgame::gl_shader::build_program(gradation_vshader_.c_str(),
                                          gradation_fshader_.c_str(),
@@ -69,10 +72,6 @@ bool GradationalGLRenderer::OnInitial(const glm::vec2 &window_size) {
     return false;
   }
   blit_program_ = program;
-
-  // Set up draw settings
-  glEnable(GL_CULL_FACE);
-  glCullFace(GL_BACK);
 
   // Set up frame buffer
   if (framebuf_.SetUp(window_size, num_generations_) < 0) {
@@ -101,10 +100,12 @@ bool GradationalGLRenderer::OnInitial(const glm::vec2 &window_size) {
   static const GLfloat kEffectUV[] = { 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
       1.0f };
   glBufferData(GL_ARRAY_BUFFER, sizeof(kEffectUV), kEffectUV, GL_STATIC_DRAW);
+
+  set_initialized(true);
   return true;
 }
 
-void GradationalGLRenderer::OnFinal() {
+void GradationalGLRenderer::Finalize() {
   // Delete drawing objects
   glDeleteBuffers(1, &uv_buffer_);
   glDeleteBuffers(1, &vertex_buffer_);
@@ -114,10 +115,10 @@ void GradationalGLRenderer::OnFinal() {
   framebuf_.CleanUp();
 
   // Reset draw settings
-  glDisable(GL_CULL_FACE);
-  glUseProgram(0);
   mojgame::gl_shader::delete_program(gradation_program_);
   gradation_program_ = 0;
+
+  set_initialized(false);
 }
 
 void GradationalGLRenderer::RenderOnStege1() {
@@ -136,6 +137,7 @@ void GradationalGLRenderer::RenderOnStege1() {
   mojgame::glBindDrawFramebuffer(framebuf_.name());
   mojgame::glFramebufferDrawColorAttachment(target_texname_);
   glDrawArrays(GL_QUADS, 0, 4);
+  glUseProgram(0);
 }
 
 void GradationalGLRenderer::RenderOnStege2() {
@@ -143,16 +145,20 @@ void GradationalGLRenderer::RenderOnStege2() {
   mojgame::gl_rendering::bind_2d_texture(
       GL_TEXTURE0, framebuf_.colortexs()[target_texname_]);
   mojgame::gl_shader::set_uniform_1i(blit_program_, "texture", 0);
+  mojgame::gl_shader::set_uniform_1f(blit_program_, "filling_level_", filling_level_);
 
   mojgame::glUnbindDrawFramebuffer();
   mojgame::gl_rendering::clear_color_buffer();
   glDrawArrays(GL_QUADS, 0, 4);
+  glUseProgram(0);
 }
 
 bool GradationalGLRenderer::OnRendering(const glm::vec2 &window_size) {
   UNUSED(window_size);
 
   /* Do common set-up */
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
   glEnableVertexAttribArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
@@ -168,7 +174,7 @@ bool GradationalGLRenderer::OnRendering(const glm::vec2 &window_size) {
   /* Do common clean-up */
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(0);
-  glUseProgram(0);
+  glDisable(GL_CULL_FACE);
   return true;
 }
 

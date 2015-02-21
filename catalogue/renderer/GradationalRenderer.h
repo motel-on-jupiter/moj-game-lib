@@ -15,14 +15,17 @@ class GradationalGLRenderer : public BaseRenderer {
                         const char *gradation_fshader, int num_generations);
   virtual ~GradationalGLRenderer() {
   }
+  bool Initialize(const glm::vec2 &window_size);
+  void Finalize();
 
   mojgame::gl_shader::program_t gradation_program() {
     return gradation_program_;
   }
+  void set_filling_level(float filling_level) {
+    filling_level_ = filling_level;
+  }
 
  protected:
-  virtual bool OnInitial(const glm::vec2 &window_size);
-  virtual void OnFinal();
   virtual bool OnRendering(const glm::vec2 &window_size);
 
  private:
@@ -39,6 +42,7 @@ class GradationalGLRenderer : public BaseRenderer {
   GLuint vertex_buffer_;
   GLuint uv_buffer_;
   GLuint target_texname_;
+  float filling_level_;
 };
 
 } /* namespace mojgame */
