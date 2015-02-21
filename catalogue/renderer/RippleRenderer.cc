@@ -34,7 +34,7 @@ uniform sampler2D prev0_tex;
 uniform sampler2D prev1_tex;
 uniform vec2 windowSize;
 uniform vec2 stimulusPoss[10];
-uniform float stimulusEffects[10];
+uniform vec3 stimulusColors[10];
 
 const float kEpsilon = 0.0000001;
 
@@ -44,7 +44,7 @@ void main(void) {
     if (length(stimulusPoss[i]) > kEpsilon) {
       if ((abs(stimulusPoss[i].x - vertexUv.x) < texelSize.x * 0.6) &&
           (abs(stimulusPoss[i].y - vertexUv.y) < texelSize.y * 0.6)) {
-        fragmentColor = vec4(stimulusEffects[i]);
+        fragmentColor = vec4(stimulusColors[i], 1.0f);
         return;
       }
     }
@@ -85,7 +85,8 @@ void RandomRippleStimulator::Generate(const glm::vec2 &window_size,
   UNUSED(window_size);
 
   stimulus.pos = glm::linearRand(glm::vec2(0.0f), glm::vec2(1.0f));
-  stimulus.effect = glm::linearRand(0.0f, 1.0f);
+  stimulus.color = color_;
+  stimulus.effect = glm::linearRand(effect_range_[0], effect_range_[1]);
 }
 
 RippleGLRenderer::RippleGLRenderer()
@@ -129,12 +130,12 @@ bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
                                      window_size);
   RippleStimulus stimulus;
   std::vector<glm::vec2> stimulus_poss;
-  std::vector<float> stimulus_effects;
+  std::vector<glm::vec3> stimulus_colors;
   for (auto it = stimulators_.begin(); it != stimulators_.end();) {
     if (it->first != nullptr) {
       it->first->Generate(window_size, stimulus);
       stimulus_poss.push_back(stimulus.pos);
-      stimulus_effects.push_back(stimulus.effect);
+      stimulus_colors.push_back(stimulus.color * stimulus.effect);
       if (it->first->IsDead()) {
         if (it->second) {
           delete it->first;
@@ -146,11 +147,11 @@ bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
     }
   }
   stimulus_poss.resize(10);
-  stimulus_effects.resize(10);
+  stimulus_colors.resize(10);
   mojgame::gl_shader::set_uniform_2fv(gradation_program(), "stimulusPoss",
                                       glm::value_ptr(stimulus_poss[0]), 10);
-  mojgame::gl_shader::set_uniform_1fv(gradation_program(), "stimulusEffects",
-                                      stimulus_effects.data(), 10);
+  mojgame::gl_shader::set_uniform_3fv(gradation_program(), "stimulusColors",
+                                      glm::value_ptr(stimulus_colors[0]), 10);
   return mojgame::GradationalGLRenderer::OnRendering(window_size);
 }
 

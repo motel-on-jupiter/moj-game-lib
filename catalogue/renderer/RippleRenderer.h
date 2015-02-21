@@ -13,17 +13,22 @@ namespace mojgame {
 
 struct RippleStimulus {
   glm::vec2 pos;
+  glm::vec3 color;
   float effect;
 
   RippleStimulus()
       : pos(),
+        color(),
         effect(0.0f) {
   }
-  RippleStimulus(glm::vec2 pos, float force)
+  RippleStimulus(glm::vec2 pos, glm::vec3 color, float effect)
       : pos(pos),
-        effect(force) {
+        color(color),
+        effect(effect) {
   }
   void Clear() {
+    pos = glm::vec2();
+    color = glm::vec3();
     effect = 0.0f;
   }
 };
@@ -34,7 +39,8 @@ class RippleStimulatorInterface {
   }
   virtual ~RippleStimulatorInterface() {
   }
-  virtual void Generate(const glm::vec2 &window_size, RippleStimulus &stimulus) = 0;
+  virtual void Generate(const glm::vec2 &window_size,
+                        RippleStimulus &stimulus) = 0;
   virtual bool IsDead() const = 0;
 };
 
@@ -59,23 +65,33 @@ class OneshotRippleStimulator : public RippleStimulatorInterface {
 
 class RandomRippleStimulator : public RippleStimulatorInterface {
  public:
-  RandomRippleStimulator() {
+  RandomRippleStimulator(const glm::vec3 &color,
+                         const glm::vec2 &effect_range)
+      : color_(color),
+        effect_range_(effect_range) {
   }
   void Generate(const glm::vec2 &window_size, RippleStimulus &stimulus);
   virtual bool IsDead() const {
     return true;
   }
 
+  void set_effect_range(const glm::vec2 &effect_range) {
+    effect_range_ = effect_range;
+  }
+
  private:
+  glm::vec3 color_;
+  glm::vec2 effect_range_;
   RippleStimulus stimulus_;
 };
 
 class RainyRippleStimulator : public RandomRippleStimulator {
  public:
-  RainyRippleStimulator()
-      : RandomRippleStimulator() {
+  RainyRippleStimulator(const glm::vec3 &color,
+                        const glm::vec2 &effect_range)
+      : RandomRippleStimulator(color, effect_range) {
   }
-  virtual bool IsDead() const {
+  bool IsDead() const {
     return false;
   }
 };
@@ -83,14 +99,14 @@ class RainyRippleStimulator : public RandomRippleStimulator {
 class RippleGLRenderer : public GradationalGLRenderer {
  public:
   RippleGLRenderer();
-  virtual ~RippleGLRenderer();
+  ~RippleGLRenderer();
 
   bool Receive(const RippleStimulus &stimulus);
   void Attach(RippleStimulatorInterface &stimulator);
   void DettachAll();
 
  protected:
-  virtual bool OnRendering(const glm::vec2 &window_size);
+  bool OnRendering(const glm::vec2 &window_size);
 
  private:
   typedef std::pair<RippleStimulatorInterface *, bool> AttachedStimulator;
