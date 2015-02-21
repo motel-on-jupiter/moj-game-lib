@@ -88,19 +88,6 @@ void RandomRippleStimulator::Generate(const glm::vec2 &window_size,
   stimulus.effect = glm::linearRand(0.0f, 1.0f);
 }
 
-void WalkerRippleStimulator::Generate(const glm::vec2 &window_size,
-                                      RippleStimulus &stimulus) {
-  mover_.Move(move_forward_ ? 1.0f : -1.0f);
-  glm::vec2 mergin = glm::vec2(0.0f, feet_mergin_);
-  if (left_foot_landing_) {
-    mergin.y *= -1.0f;
-  }
-  mergin = glm::rotate(mergin, mover_.dir());
-  left_foot_landing_ = !left_foot_landing_;
-  stimulus.pos = (mover_.pos() + mergin) / window_size;
-  stimulus.effect = 1.0f;
-}
-
 RippleGLRenderer::RippleGLRenderer()
     : mojgame::GradationalGLRenderer(kVShaderSource, kFShaderSource, 3),
       stimulators_() {
