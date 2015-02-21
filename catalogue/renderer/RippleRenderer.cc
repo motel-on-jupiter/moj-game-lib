@@ -115,6 +115,15 @@ void RippleGLRenderer::Attach(RippleStimulatorInterface &stimulator) {
   stimulators_.push_back(AttachedStimulator(&stimulator, false));
 }
 
+void RippleGLRenderer::DettachAll() {
+  for (auto it = stimulators_.begin(); it != stimulators_.end(); ++it) {
+    if (it->second) {
+      delete it->first;
+    }
+  }
+  stimulators_.clear();
+}
+
 bool RippleGLRenderer::OnRendering(const glm::vec2 &window_size) {
   mojgame::gl_shader::set_uniform_2f(gradation_program(), "windowSize",
                                      window_size);

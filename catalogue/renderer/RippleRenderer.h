@@ -87,6 +87,7 @@ class RippleGLRenderer : public GradationalGLRenderer {
 
   bool Receive(const RippleStimulus &stimulus);
   void Attach(RippleStimulatorInterface &stimulator);
+  void DettachAll();
 
  protected:
   virtual bool OnRendering(const glm::vec2 &window_size);
