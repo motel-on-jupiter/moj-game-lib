@@ -28,6 +28,10 @@ bool AlureBgm::Initialize(float pitch, float gain) {
   alSourcef(source_, AL_PITCH, pitch);
   alSourcef(source_, AL_GAIN, gain);
 
+  // Invalidate 3D effect
+  alSourcei(source_, AL_SOURCE_RELATIVE, AL_TRUE);
+  alSourcef(source_, AL_ROLLOFF_FACTOR, 0.0f);
+
   alureStreamSizeIsMicroSec(AL_TRUE);
   stream_ = alureCreateStreamFromFile(bgm_file_path_.c_str(), 250000, 0, nullptr);
   if(stream_ == nullptr) {
