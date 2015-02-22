@@ -21,6 +21,15 @@ class GradationalGLRenderer : public BaseRenderer {
   mojgame::gl_shader::program_t gradation_program() {
     return gradation_program_;
   }
+  float filtering_r() const {
+    return filtering_r_;
+  }
+  float filtering_g() const {
+    return filtering_g_;
+  }
+  float filtering_b() const {
+    return filtering_b_;
+  }
   void set_filtering_r(float filtering_r) {
     filtering_r_ = filtering_r;
   }
