@@ -21,6 +21,15 @@ class GradationalGLRenderer : public BaseRenderer {
   mojgame::gl_shader::program_t gradation_program() {
     return gradation_program_;
   }
+  void set_filtering_r(float filtering_r) {
+    filtering_r_ = filtering_r;
+  }
+  void set_filtering_g(float filtering_g) {
+    filtering_g_ = filtering_g;
+  }
+  void set_filtering_b(float filtering_b) {
+    filtering_b_ = filtering_b;
+  }
   void set_filling_level(float filling_level) {
     filling_level_ = filling_level;
   }
@@ -42,6 +51,9 @@ class GradationalGLRenderer : public BaseRenderer {
   GLuint vertex_buffer_;
   GLuint uv_buffer_;
   GLuint target_texname_;
+  float filtering_r_;
+  float filtering_g_;
+  float filtering_b_;
   float filling_level_;
 };
 

@@ -28,12 +28,22 @@ in vec2 vertexUv;
 layout (location = 0) out vec4 fragmentColor;
 
 uniform sampler2D texture;
+uniform vec3 filtering_rgb;
 uniform float filling_level;
 
 void main(void) {
   fragmentColor = texture2D(texture, vertexUv);
+  if (fragmentColor.r < filtering_rgb.r) {
+    fragmentColor.r = 0.0f;
+  }
+  if (fragmentColor.g < filtering_rgb.g) {
+    fragmentColor.g = 0.0f;
+  }
+  if (fragmentColor.b < filtering_rgb.b) {
+    fragmentColor.b = 0.0f;
+  }
   fragmentColor.rgb *= 5.0;
-  fragmentColor.rgb += vec3(1.0, 1.0, 1.0) * filling_level;
+  fragmentColor.rgb += vec3(filling_level);
 }
 );
 
@@ -52,6 +62,9 @@ GradationalGLRenderer::GradationalGLRenderer(const char *gradation_vshader,
       vertex_buffer_(0),
       uv_buffer_(0),
       target_texname_(0),
+      filtering_r_(1.0f),
+      filtering_g_(1.0f),
+      filtering_b_(1.0f),
       filling_level_(0.0f) {
 }
 
@@ -145,7 +158,9 @@ void GradationalGLRenderer::RenderOnStege2() {
   mojgame::gl_rendering::bind_2d_texture(
       GL_TEXTURE0, framebuf_.colortexs()[target_texname_]);
   mojgame::gl_shader::set_uniform_1i(blit_program_, "texture", 0);
-  mojgame::gl_shader::set_uniform_1f(blit_program_, "filling_level_", filling_level_);
+  mojgame::gl_shader::set_uniform_3f(blit_program_, "filtering_rgb",
+                                     glm::vec3(filtering_r_, filtering_g_, filtering_b_));
+  mojgame::gl_shader::set_uniform_1f(blit_program_, "filling_level", filling_level_);
 
   mojgame::glUnbindDrawFramebuffer();
   mojgame::gl_rendering::clear_color_buffer();
