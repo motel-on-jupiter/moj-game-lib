@@ -9,43 +9,44 @@
 
 namespace mojgame {
 
-AlureSe::AlureSe(const char *se_file_path) :
+AlureSe::AlureSe(const char *se_file_path, unsigned int source_slot_length) :
   se_file_path_(se_file_path),
-  source_(0),
+  slot_length_(source_slot_length),
+  active_slot_(0),
+  source_slot_(nullptr),
   buffer_(0) {
 }
 
 bool AlureSe::Initialize(float pitch, float gain) {
-  if (source_ != 0 || buffer_ != 0) {
+  if (source_slot_ != nullptr || buffer_ != 0) {
     mojgame::LOGGER().Error("Not finalized");
     return false;
   }
-  alGenSources(1, &source_);
+  source_slot_ = new unsigned int[slot_length_];
+  if (source_slot_ == nullptr) {
+    mojgame::LOGGER().Error("Failed to allocate source slot");
+    return false;
+  }
+  alGenSources(slot_length_, source_slot_);
   if (alGetError() != AL_NO_ERROR) {
     mojgame::LOGGER().Error("Failed to create OpenAL source");
     return false;
   }
-  alSourcef(source_, AL_PITCH, pitch);
-  alSourcef(source_, AL_GAIN, gain);
 
   buffer_ = alureCreateBufferFromFile(se_file_path_.c_str());
   if(buffer_ == 0) {
     mojgame::LOGGER().Error("Failed to create buffer with audio file "
                             "(file: %s, errmsg: %s)",
                             se_file_path_.c_str(), alureGetErrorString());
-    alDeleteSources(1, &source_);
+    Finalize();
     return false;
   }
-  alSourcei(source_, AL_BUFFER, buffer_);
+  for (unsigned int i=0; i<slot_length_; ++i) {
+    alSourcef(source_slot_[i], AL_PITCH, pitch);
+    alSourcef(source_slot_[i], AL_GAIN, gain);
+    alSourcei(source_slot_[i], AL_BUFFER, buffer_);
+  }
   return true;
-}
-
-void AlureSe::ChangePitch(float pitch) {
-  alSourcef(source_, AL_PITCH, pitch);
-}
-
-void AlureSe::ChangeGain(float gain) {
-  alSourcef(source_, AL_GAIN, gain);
 }
 
 void AlureSe::Finalize() {
@@ -53,9 +54,10 @@ void AlureSe::Finalize() {
     alDeleteBuffers(1, &buffer_);
     buffer_ = 0;
   }
-  if (source_ != 0) {
-    alDeleteSources(1, &source_);
-    source_ = 0;
+  if (source_slot_ != nullptr) {
+    alDeleteSources(slot_length_, source_slot_);
+    free(source_slot_);
+    source_slot_ = nullptr;
   }
 }
 
@@ -64,18 +66,36 @@ static void OnPlayingFinish(void *userdata, ALuint source) {
   UNUSED(source);
 }
 
-bool AlureSePlayer::Play(AlureSe &se, const glm::vec3 &pos) {
-  alSource3f(se.source(), AL_POSITION, pos.x, pos.y, pos.z);
-  if(!alurePlaySource(se.source(), OnPlayingFinish, nullptr)) {
+int AlureSePlayer::Play(AlureSe &se, const glm::vec3 &pos, float pitch,
+                        float gain) {
+  int slot_idx = se.RotateSlot();
+  ALuint source = se.GetSource(slot_idx);
+  if (source == 0) {
+    mojgame::LOGGER().Error("Failed to get valid source");
+    return 0;
+  }
+  if (pitch >= 0.0f) {
+    alSourcef(source, AL_PITCH, pitch);
+  }
+  if (gain >= 0.0f) {
+    alSourcef(source, AL_GAIN, gain);
+  }
+  alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
+  if(!alurePlaySource(source, OnPlayingFinish, nullptr)) {
     mojgame::LOGGER().Error("Failed to play se (errmsg: %s)",
                             alureGetErrorString());
-    return false;
+    return 0;
   }
-  return true;
+  return slot_idx;
 }
 
-bool AlureSePlayer::Stop(AlureSe &se) {
-  if(!alureStopSource(se.source(), AL_FALSE)) {
+bool AlureSePlayer::Stop(AlureSe &se, int slot_idx) {
+  ALuint source = se.GetSource(slot_idx);
+  if (source == 0) {
+    mojgame::LOGGER().Error("Failed to get valid source");
+    return false;
+  }
+  if(!alureStopSource(source, AL_FALSE)) {
     mojgame::LOGGER().Error("Failed to stop se (errmsg: %s)",
                             alureGetErrorString());
     return false;
