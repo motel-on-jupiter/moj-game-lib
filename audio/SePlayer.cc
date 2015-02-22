@@ -16,6 +16,10 @@ AlureSe::AlureSe(const char *se_file_path) :
 }
 
 bool AlureSe::Initialize(float pitch, float gain) {
+  if (source_ != 0 || buffer_ != 0) {
+    mojgame::LOGGER().Error("Not finalized");
+    return false;
+  }
   alGenSources(1, &source_);
   if (alGetError() != AL_NO_ERROR) {
     mojgame::LOGGER().Error("Failed to create OpenAL source");
@@ -45,8 +49,14 @@ void AlureSe::ChangeGain(float gain) {
 }
 
 void AlureSe::Finalize() {
-  alDeleteBuffers(1, &buffer_);
-  alDeleteSources(1, &source_);
+  if (buffer_ != 0) {
+    alDeleteBuffers(1, &buffer_);
+    buffer_ = 0;
+  }
+  if (source_ != 0) {
+    alDeleteSources(1, &source_);
+    source_ = 0;
+  }
 }
 
 static void OnPlayingFinish(void *userdata, ALuint source) {

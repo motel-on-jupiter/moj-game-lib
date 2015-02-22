@@ -17,7 +17,7 @@ class AlureBgm {
   }
 
   bool Initialize(float pitch, float gain);
-  bool Finalize();
+  void Finalize();
 
   void ChangePitch(float pitch);
   void ChangeGain(float gain);

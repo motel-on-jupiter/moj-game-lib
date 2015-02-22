@@ -16,6 +16,10 @@ AlureBgm::AlureBgm(const char *bgm_file_path) :
 }
 
 bool AlureBgm::Initialize(float pitch, float gain) {
+  if (source_ != 0 || stream_ != nullptr) {
+    mojgame::LOGGER().Error("Not finalized");
+    return false;
+  }
   alGenSources(1, &source_);
   if (alGetError() != AL_NO_ERROR) {
     mojgame::LOGGER().Error("Failed to create OpenAL source");
@@ -44,14 +48,19 @@ void AlureBgm::ChangeGain(float gain) {
   alSourcef(source_, AL_GAIN, gain);
 }
 
-bool AlureBgm::Finalize() {
-  ALboolean ok = alureDestroyStream(stream_, 0, nullptr);
-  if (!ok) {
-    mojgame::LOGGER().Warn("Failed to destory stream (errmsg: %s)",
-                           alureGetErrorString());
+void AlureBgm::Finalize() {
+  if (stream_ != nullptr) {
+    ALboolean ok = alureDestroyStream(stream_, 0, nullptr);
+    stream_ = nullptr;
+    if (!ok) {
+      mojgame::LOGGER().Warn("Failed to destory stream (errmsg: %s)",
+                             alureGetErrorString());
+    }
   }
-  alDeleteSources(1, &source_);
-  return ok == AL_TRUE;
+  if (source_ != 0) {
+    alDeleteSources(1, &source_);
+    source_ = 0;
+  }
 }
 
 static void OnPlayingFinish(void *userdata, ALuint source) {
