@@ -39,7 +39,7 @@ class AlureSe {
 };
 
 namespace AlureSePlayer {
-  bool Play(AlureSe &se);
+  bool Play(AlureSe &se, const glm::vec3 &pos = glm::vec3());
   bool Stop(AlureSe &se);
 };
 

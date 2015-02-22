@@ -64,7 +64,8 @@ static void OnPlayingFinish(void *userdata, ALuint source) {
   UNUSED(source);
 }
 
-bool AlureSePlayer::Play(AlureSe &se) {
+bool AlureSePlayer::Play(AlureSe &se, const glm::vec3 &pos) {
+  alSource3f(se.source(), AL_POSITION, pos.x, pos.y, pos.z);
   if(!alurePlaySource(se.source(), OnPlayingFinish, nullptr)) {
     mojgame::LOGGER().Error("Failed to play se (errmsg: %s)",
                             alureGetErrorString());
