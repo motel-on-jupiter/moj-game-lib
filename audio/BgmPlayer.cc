@@ -53,6 +53,11 @@ void AlureBgm::ChangeGain(float gain) {
 }
 
 void AlureBgm::Finalize() {
+  if (source_ != 0) {
+    alureStopSource(source_, AL_FALSE);
+    alDeleteSources(1, &source_);
+    source_ = 0;
+  }
   if (stream_ != nullptr) {
     ALboolean ok = alureDestroyStream(stream_, 0, nullptr);
     stream_ = nullptr;
@@ -60,10 +65,6 @@ void AlureBgm::Finalize() {
       mojgame::LOGGER().Warn("Failed to destory stream (errmsg: %s)",
                              alureGetErrorString());
     }
-  }
-  if (source_ != 0) {
-    alDeleteSources(1, &source_);
-    source_ = 0;
   }
 }
 
